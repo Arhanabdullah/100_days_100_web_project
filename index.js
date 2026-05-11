@@ -80,9 +80,8 @@ window.addEventListener('resize', () => {
 const themeToggle = document.getElementById('themeToggle');
 const themeIcon = themeToggle.querySelector('i');
 
-// Check for saved theme preference or default to dark mode
-const currentTheme = window.theme || 'dark';
-if (currentTheme === 'light') {
+// Load theme preference from localStorage
+if (localStorage.getItem('theme') === 'light') {
     document.body.classList.add('light-mode');
     themeIcon.classList.remove('fa-moon');
     themeIcon.classList.add('fa-sun');
@@ -92,13 +91,13 @@ themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
     
     if (document.body.classList.contains('light-mode')) {
+        localStorage.setItem('theme', 'light');
         themeIcon.classList.remove('fa-moon');
         themeIcon.classList.add('fa-sun');
-        window.theme = 'light';
     } else {
+        localStorage.setItem('theme', 'dark');
         themeIcon.classList.remove('fa-sun');
         themeIcon.classList.add('fa-moon');
-        window.theme = 'dark';
     }
 });
 
@@ -158,11 +157,11 @@ function updateNavbar() {
         if (document.body.classList.contains('light-mode')) {
             newThemeIcon.classList.remove('fa-moon');
             newThemeIcon.classList.add('fa-sun');
-            window.theme = 'light';
+            localStorage.setItem('theme', 'light');
         } else {
             newThemeIcon.classList.remove('fa-sun');
             newThemeIcon.classList.add('fa-moon');
-            window.theme = 'dark';
+            localStorage.setItem('theme', 'dark');
         }
     });
 }

@@ -5,25 +5,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Sign Up - 100 Days 100 Web Projects</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="login.css" />
     <link rel="icon" href="favv.png" type="image/x-icon" />
 </head>
 
 <body>
+    <canvas id="bgCanvas"></canvas>
     <header class="navbar">
         <a href="../index.html" class="nav-link">Back to Home</a>
-      </header>
-    <div class="container">
+        <button id="themeToggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </button>
+    </header>
+    <div class="container signup-container">
         
         <div class="left-section">
-            <button class="back-button" onclick="window.location.href='Login.html'">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="feather feather-arrow-left">
-                    <line x1="19" y1="12" x2="5" y2="12"></line>
-                    <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
+            <button class="back-button" onclick="window.location.href='Login.html'" title="Back to Login">
+                <i class="fas fa-arrow-left"></i>
             </button>
             <h1 class="animated-heading">100 Days 100 Web Projects!<span class="blinking-cursor">|</span></h1>
             <p class="description fs-6">
@@ -43,29 +43,110 @@
                 already signed up? <a href="login.html">Login</a>
             </p>
         </div>
-    
-        <div class="right-section">
-            <img src="https://res.cloudinary.com/startup-grind/image/upload/c_fill,dpr_2.0,f_auto,g_center,h_1080,q_100,w_1080/v1/gcs/platform-data-dsc/events/web_ilY3NoA.jpeg" alt="Image 1" class="transition-image">
-      <img src="https://d1yn1kh78jj1rr.cloudfront.net/image/preview/rDtN98Qoishumwih/website-project_zkO6fFr__PM.jpg" alt="Image 2" class="transition-image">
-      <img src="https://www.socialbullets.com/wp-content/uploads/2020/03/SEO-Marketing-Plan-1024x819-1.png" alt="Image 3" class="transition-image">
-      <img src="https://static.vecteezy.com/system/resources/previews/011/153/366/original/3d-web-developer-working-on-project-illustration-png.png" alt="Image 4" class="transition-image">
-      <img src="https://labs.sogeti.com/wp-content/uploads/sites/2/2024/01/case-studies-illustration-digital-services-a.png" alt="Image 5" class="transition-image">
-          </div>
-    </section>
-        </div>
-
+    </div>
 
     <script>
-        const images = document.querySelectorAll('.transition-image');
-        let currentImageIndex = 0;
+        // Canvas Background Animation
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-        function showNextImage() {
-            images[currentImageIndex].style.opacity = 0;
-            currentImageIndex = (currentImageIndex + 1) % images.length;
-            images[currentImageIndex].style.opacity = 1;
+        const particles = [];
+        const particleCount = 100;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                const isDark = !document.body.classList.contains('light-mode');
+                const alpha = isDark ? Math.random() * 0.5 + 0.2 : Math.random() * 0.3 + 0.1;
+                ctx.fillStyle = `rgba(26, 188, 156, ${alpha})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
 
-        setInterval(showNextImage, 3000);
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            const isDark = !document.body.classList.contains('light-mode');
+            ctx.fillStyle = isDark ? 'rgba(10, 10, 10, 0.1)' : 'rgba(245, 245, 245, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 100) {
+                        const alpha = isDark ? 0.2 * (1 - dist / 100) : 0.1 * (1 - dist / 100);
+                        ctx.strokeStyle = `rgba(26, 188, 156, ${alpha})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        // Load theme preference from localStorage
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            
+            if (document.body.classList.contains('light-mode')) {
+                localStorage.setItem('theme', 'light');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                localStorage.setItem('theme', 'dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
 
         document.getElementById('signupForm').addEventListener('submit', function (event) {
             event.preventDefault();
