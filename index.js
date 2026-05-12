@@ -306,7 +306,8 @@ function fillTable() {
         ["Day 112", "Nykaa Clone Website", "./public/Nykaa-clone/index.html"],
         ["Day 113", "CPU Scheduler", "./public/CpuScheduler/index.html"],
         ["Day 114","EchoNotes","./public/EchoNotes/index.html"],
-        ["Day 115", "Event Registration System", "https://event-registration-system-w10a.onrender.com/"]
+        ["Day 115", "Event Registration System", "https://event-registration-system-w10a.onrender.com/"],
+        ["Day 116", "The Last Tab", "./public/TheLastTab/index.html"]
     ];
 
     const tbody = document.getElementById('tableBody');
