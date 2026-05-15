@@ -285,12 +285,32 @@ body.light-mode .navbar {
     justify-content: center;
     padding: 100px 2rem 6rem;
     position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.hero-terminal {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.68;
+    filter: saturate(1.15) contrast(1.06);
+}
+
+.faulty-terminal-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
 }
 
 .hero-inner {
     max-width: 840px;
     width: 100%;
     text-align: center;
+    position: relative;
+    z-index: 1;
 }
 
 .hero-overline {
