@@ -54,14 +54,16 @@ body {
 
 /* Flex assembly ties pole and flag side-by-side */
 .flag-assembly {
-  display: flex;
-  align-items: flex-start;
+  position: relative;
+  width: 480px;  
+  height: 480px; 
+  display: block
 }
 
 /* ================= FLAG POLE ================= */
 
 .bar {
-  height: 70vh;
+  height: 100%;
   width: 12px;
   background: #222;
   border-left: 2px solid rgb(167, 167, 167);
@@ -89,7 +91,9 @@ body {
 .flag {
   height: 300px;
   width: 450px;
-  position: relative;
+  position: absolute;
+  left: 12px; 
+  top: 0;
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3);
   transform-origin: left center;
   animation: wave 2.5s infinite ease-in-out;
