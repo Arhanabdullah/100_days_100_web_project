@@ -4,7 +4,7 @@ body {
   text-align: center;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .background-video {
@@ -26,9 +26,10 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-size: cover;
+  object-fit: cover;
   filter: blur(2px) brightness(0.7);
 }
+
 .background-video::after {
   content: "";
   position: absolute;
@@ -39,14 +40,18 @@ body {
   background: rgba(0, 0, 0, 0.35);
 }
 
+/* MAIN LAYOUT */
 .wrapper {
   display: flex;
-  position: relative;
-  justify-content: left;
+  justify-content: flex-start;
   align-items: center;
   height: 100vh;
+  position: relative;
+  gap: 40px;
+  padding: 20px;
 }
 
+/* FLAG POLE */
 .bar {
   margin-left: 140px;
   height: 650px;
@@ -54,76 +59,44 @@ body {
   background: #222;
   border-left: 2px solid rgb(167, 167, 167);
   box-shadow: 10px 10px 20px #959595;
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 10px 10px 0 0;
 }
 
-.bar div{ 
+.bar div {
   background-color: #222;
   height: 20px;
   width: 130px;
-  left: -62px;
   position: relative;
   top: 92%;
   border: 1px solid white;
 }
 
-.bar .bar-1{
-  width: 65px;
-  left: -27px;
-}
+.bar .bar-1 { width: 65px; left: -27px; }
+.bar .bar-2 { width: 101px; left: -44px; }
+.bar .bar-3 { width: 134px; left: -62px; }
 
-.bar .bar-2{
-  width: 101px;
-  left: -44px;
-}
-
-.bar .bar-3{
-  width: 134px;
-  left: -62px;
-
-}
-
+/* FLAG */
 .flag {
-  margin-top: -320px;
   height: 300px;
   width: 500px;
   position: relative;
   box-shadow: 10px 10px 20px #959595;
   transform-origin: left center;
-
-  /* Smooth waving effect */
   animation: wave 2.5s infinite ease-in-out;
 }
 
 @keyframes wave {
-  0% {
-    transform: skewY(0deg) translateX(0px);
-  }
-
-  25% {
-    transform: skewY(1deg) translateX(2px);
-  }
-
-  50% {
-    transform: skewY(0deg) translateX(0px);
-  }
-
-  75% {
-    transform: skewY(-1deg) translateX(-2px);
-  }
-
-  100% {
-    transform: skewY(0deg) translateX(0px);
-  }
+  0% { transform: skewY(0deg) translateX(0px); }
+  25% { transform: skewY(1deg) translateX(2px); }
+  50% { transform: skewY(0deg) translateX(0px); }
+  75% { transform: skewY(-1deg) translateX(-2px); }
+  100% { transform: skewY(0deg) translateX(0px); }
 }
 
 .flag::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: linear-gradient(
     to right,
     rgba(255,255,255,0.15),
@@ -131,81 +104,50 @@ body {
   );
 }
 
-
-.top {
-  height: 100px;
-  width: 100%;
-  background-color: #FF671F;
-}
-
+.top { height: 100px; background-color: #FF671F; }
 .middle {
   height: 100px;
-  width: 100%;
-  background-color: #fff;
+  background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+.bottom { height: 100px; background-color: #046A38; }
 
 .middle img {
   width: 80px;
   animation: rotate 4s linear infinite;
 }
 
-.bottom {
-  height: 100px;
-  width: 100%;
-  background-color: #046A38;
-}
-
 @keyframes rotate {
-  from {
-      transform: rotate(0deg);
-  }
-
-  to {
-      transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
+/* QUOTE BOX */
 .quote-container {
-  margin-left: 20px; /* Adjust margin for spacing */
   padding: 20px;
-  background-color: #f9f9f9;
-  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+  background: #fff;
   border-radius: 10px;
   text-align: center;
-  width: 450px; /* Adjust width as needed */
+  width: 450px;
   position: absolute;
   top: 50%;
+  right: 190px;
   transform: translateY(-50%);
-  right: 190px; /* Adjust right position as needed */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
-
-
-
 
 .quote {
   font-size: 1.5em;
   font-weight: bold;
   color: #333;
   margin-bottom: 10px;
-  transition: color 0.3s ease;
 }
 
 .author {
   font-size: 1.2em;
   color: #555;
-  transition: color 0.3s ease;
-}
-
-.quote:hover {
-  color: #FF671F;
-}
-
-.quote:hover .author {
-  color: #046A38;
 }
 
 .quote-nav {
@@ -221,25 +163,13 @@ body {
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .quote-nav button:hover {
   background-color: #046A38;
 }
 
-@media (max-width: 768px) {
-  .flag {
-    width: 90%;
-    height: auto;
-  }
-
-  h1 {
-    font-size: 20px;
-  }
-}
-
-
+/* MUSIC */
 .music-controls {
   position: fixed;
   bottom: 20px;
@@ -250,3 +180,50 @@ body {
   backdrop-filter: blur(10px);
 }
 
+/* 🔥 RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+
+  .wrapper {
+    flex-direction: column;
+    height: auto;
+    align-items: center;
+  }
+
+  .bar {
+    margin-left: 0;
+    height: 300px;
+  }
+
+  .flag {
+    width: 90%;
+    max-width: 320px;
+    height: auto;
+  }
+
+  .quote-container {
+    position: relative;
+    top: auto;
+    right: auto;
+    transform: none;
+    width: 90%;
+    margin-top: 20px;
+  }
+
+  .middle img {
+    width: 50px;
+  }
+
+  .quote {
+    font-size: 1.1em;
+  }
+
+  .author {
+    font-size: 0.9em;
+  }
+
+  .music-controls {
+    transform: scale(0.9);
+    right: 10px;
+    bottom: 10px;
+  }
+}
