@@ -352,7 +352,7 @@ const PROJECT_DATA = [
   [
     'Day 50',
     'Recipe Genie',
-    'https://github.com/dhairyagothi/100_days_100_web_project/tree/Main/public/Recipe-Genie',
+    'https://github.com/dhairyagothi/100_days_100_web_project/tree/Main/public/Recipe%20Genie',
     'api javascript',
     'intermediate',
   ],
