@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const instructionText = document.getElementById('scratch-instruction');
     const resetButton = document.getElementById('reset-btn');
     const customCursor = document.getElementById('custom-cursor');
+    const recommendationCard = document.querySelector('.recommendation-card');
 
     let isDrawing = false;
     let hasScratched = false;
@@ -306,25 +307,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial setup
     setupCanvas();
 
-    const scratchArea = document.getElementById('scratch-area');
-    const recommendationCard = document.getElementById('recommendation-card');
-    const closeRecommendationButton = document.getElementById('close-recommendation');
-
-    function getBrushPos(xRef, yRef) {
-        const rect = canvas.getBoundingClientRect();
-        const touch = e.touches ? e.touches[0] : e;
-        return {
-            x: touch.clientX - rect.left,
-            y: touch.clientY - rect.top
-        };
+    // Handle recommendation card auto-dismiss on mobile/tablet
+    if (window.matchMedia("(max-width: 768px)").matches && recommendationCard) {
+        setTimeout(() => {
+            recommendationCard.classList.add('fade-out');
+            // After the transition, hide it completely to prevent interaction
+            recommendationCard.addEventListener('transitionend', () => {
+                recommendationCard.classList.add('hidden');
+            }, { once: true });
+        }, 3500);
     }
-
-    closeRecommendationButton.addEventListener('click', () => {
-        recommendationCard.classList.add('hidden');
-    });
-
-    scratchArea.addEventListener('mousedown', (e) => {
-        if (isRevealed) return;
-        startScratch(e);
-    });
 });

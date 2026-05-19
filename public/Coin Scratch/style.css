@@ -67,7 +67,13 @@ body {
     align-items: center;
     background: radial-gradient(circle at center, var(--color-bg-start), var(--color-bg-end));
     perspective: 1000px;
+    padding: 1rem;
 }
+
+main.experience-container {
+    max-width: 100%;
+}
+
 
 .ambient-background {
     position: absolute;
@@ -365,7 +371,6 @@ body {
     box-shadow: 0 4px 15px var(--button-shadow);
 }
 
-/* Custom Cursor for scratch effect */
 .custom-cursor {
     display: none; /* Hidden by default, shown via JS */
     position: fixed;
@@ -375,6 +380,7 @@ body {
     background: rgba(255, 255, 255, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     pointer-events: none;
     transform: translate(-50%, -50%);
     z-index: 9999;
@@ -382,7 +388,56 @@ body {
 }
 
 /* Responsive adjustments */
+@media (max-width: 768px) {
+    .experience-container {
+        gap: 25px;
+        /* Make container relative to position the card inside it */
+        position: relative; 
+        justify-content: center;
+        height: 100%;
+    }
+
+    .reset-button {
+        padding: 14px 28px;
+        font-size: 15px;
+    }
+
+    .recommendation-card {
+        /* Position above the coin, relative to the experience-container */
+        position: absolute;
+        bottom: calc(var(--coin-size) + 80px); /* coin-size + gap + button height */
+        top: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        
+        padding: 12px 20px;
+        width: calc(100% - 40px);
+        max-width: 350px;
+        
+        /* Add fade-out transition */
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Fade-out state for mobile/tablet */
+    .recommendation-card.fade-out {
+        opacity: 0;
+        transform: translate(-50%, -15px); /* Slight upward movement */
+        pointer-events: none;
+    }
+
+    .headphone-icon {
+        font-size: 20px;
+    }
+
+    .recommendation-card p {
+        font-size: 13px;
+    }
+}
+
 @media (max-width: 480px) {
+    .experience-container {
+        gap: 20px;
+    }
     .reset-button {
         padding: 12px 24px;
         font-size: 14px;
@@ -395,19 +450,23 @@ body {
 
 .recommendation-card {
   position: absolute;
-  top: 5%;
+  top: 30px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #fff0f5; /* Light pink/blush */
-  border: 1px solid #d2b48c; /* Subtle brown */
+  background-color: rgba(255, 240, 245, 0.85);
+  border: 1px solid rgba(210, 180, 140, 0.5);
   border-radius: 15px;
   padding: 15px 25px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   z-index: 1001;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  width: auto;
+  max-width: 90%;
 }
 
 .recommendation-card.hidden {
@@ -423,8 +482,32 @@ body {
 }
 
 .headphone-icon {
-  font-size: 24px;
-  margin-right: 10px;
+  font-size: 22px;
+  margin-right: 12px;
+  animation: headphone-wiggle 3s ease-in-out infinite;
+}
+
+.recommendation-card p {
+    font-size: 1rem;
+    color: #000;
+    line-height: 1.5;
+}
+
+/* Mobile and Tablet specific styles for fade-out animation */
+@media (max-width: 768px) {
+    .recommendation-card {
+        opacity: 1;
+        transition: opacity 1.5s ease, transform 1.5s ease;
+    }
+
+    .recommendation-card.fade-out {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+.hidden {
+    display: none;
 }
 
 @keyframes breathing {
@@ -434,4 +517,10 @@ body {
   50% {
     transform: scale(1.03);
   }
+}
+
+@keyframes headphone-wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
 }
