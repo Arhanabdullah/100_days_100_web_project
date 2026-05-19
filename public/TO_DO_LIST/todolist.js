@@ -61,6 +61,18 @@ const TYPE_COLORS = {
   Miscellaneous: '#CAB9F5',
 };
 
+function showToast(message) {
+  const toast = document.getElementById('toast');
+
+  toast.innerText = message;
+
+  toast.classList.add('show');
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2500);
+}
+
 // ─── Add Task ──────────────────────────────────────────────────────────────────
 function Add() {
   const text = taskInput.value.trim();
@@ -194,6 +206,7 @@ function Add() {
     tickBtn.style.borderColor = taskText.classList.contains('completed')
       ? '#4caf50'
       : '#555';
+      updateStats();
   });
 
   // Delete button
@@ -221,7 +234,15 @@ function Add() {
     note.style.transition = 'opacity 0.25s, transform 0.25s';
     note.style.opacity = '0';
     note.style.transform = 'scale(0.92)';
-    setTimeout(() => note.remove(), 250);
+    setTimeout(() => {
+
+  note.remove();
+
+  updateStats();
+
+  showToast('Task Deleted');
+
+}, 250);
   });
 
   // Type badge (only if type was selected)
@@ -249,6 +270,8 @@ function Add() {
   note.insertBefore(noteWrapper, note.firstChild);
   notesContainer.appendChild(note);
 
+  updateStats();
+  showToast('Task Added Successfully');
   // Reset inputs
   taskInput.value = '';
   taskTypeSelect.value = '';
