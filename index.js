@@ -331,7 +331,7 @@ function renderGrid() {
     card.innerHTML = `
             <div class="card-meta">
                 <span class="card-day">${day}</span>
-                <span class="card-category">${CATEGORY_LABEL[cat] || cat}</span>
+                <span class="card-category ${cat}">${CATEGORY_LABEL[cat] || cat}</span>
             </div>
             <div class="card-name">${name}</div>
             <div class="card-tags">${tagsHTML}</div>
