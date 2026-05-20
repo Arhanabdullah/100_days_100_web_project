@@ -69,31 +69,31 @@ The website features:
 
 | Day | Project Name | Technologies | Type | Demo Link |
 |-----|--------------|-------------|------|-----------|
-| 1 | To-Do List | HTML, CSS, JS | 📝 Utility | [View Demo](https://100-days-100-web-project.vercel.app/public/TO_DO_LIST/todolist) |
-| 2 | Digital Clock | HTML, CSS, JS | ⏰ Widget | [View Demo](https://100-days-100-web-project.vercel.app/public/digital_clock/digitalclock) |
-| 3 | Indian Flag | HTML, CSS | 🎨 Animation | [View Demo](https://100-days-100-web-project.vercel.app/public/indianflag/flag) |
+| 1 | To-Do List | HTML, CSS, JS | 📝 Utility | [View Demo](https://100-days-100-web-project.vercel.app/public/TO_DO_LIST/todolist.html) |
+| 2 | Digital Clock | HTML, CSS, JS | ⏰ Widget | [View Demo](https://100-days-100-web-project.vercel.app/public/digital_clock/digitalclock.html) |
+| 3 | Indian Flag | HTML, CSS | 🎨 Animation | [View Demo](https://100-days-100-web-project.vercel.app/public/indianflag/flag.html) |
 | 4 | Dropdown Nav Bar | HTML, CSS, JS | 🧭 Navigation | [View Demo](https://100-days-100-web-project.vercel.app/public/dropdown_navbar) |
-| 5 | Animated Cursor | HTML, CSS, JS | ✨ Effect | [View Demo](https://100-days-100-web-project.vercel.app/public/Animated-cursor/animated-cursor) |
-| 6 | Background Image Slider | HTML, CSS, JS | 🖼️ Slider | [View Demo](https://100-days-100-web-project.vercel.app/public/Background-Image-sider/slider) |
-| 7 | Typewriter Effect | HTML, CSS, JS | ⌨️ Animation | [View Demo](https://100-days-100-web-project.vercel.app/public/typewriter/typewriter) |
-| 8 | Parallel-X Website | HTML, CSS, JS | 🌐 Website | [View Demo](https://100-days-100-web-project.vercel.app/public/Parallel-x%20website/parallal) |
-| 9 | Captcha Generator | HTML, CSS, JS | 🔐 Security | [View Demo](https://100-days-100-web-project.vercel.app/public/captcha/captcha) |
-| 10 | QR Code Generator | HTML, CSS, JS | 📱 Utility | [View Demo](https://100-days-100-web-project.vercel.app/public/qr%20generator/qr) |
+| 5 | Animated Cursor | HTML, CSS, JS | ✨ Effect | [View Demo](https://100-days-100-web-project.vercel.app/public/Animated-cursor/animated-cursor.html) |
+| 6 | Background Image Slider | HTML, CSS, JS | 🖼️ Slider | [View Demo](https://100-days-100-web-project.vercel.app/public/Background-Image-sider/slider.html) |
+| 7 | Typewriter Effect | HTML, CSS, JS | ⌨️ Animation | [View Demo](https://100-days-100-web-project.vercel.app/public/typewriter/typewriter.html) |
+| 8 | Parallel-X Website | HTML, CSS, JS | 🌐 Website | [View Demo](https://100-days-100-web-project.vercel.app/public/Parallel-x%20website/parallal.html) |
+| 9 | Captcha Generator | HTML, CSS, JS | 🔐 Security | [View Demo](https://100-days-100-web-project.vercel.app/public/captcha/captcha.html) |
+| 10 | QR Code Generator | HTML, CSS, JS | 📱 Utility | [View Demo](https://100-days-100-web-project.vercel.app/public/qr%20generator/qr.html) |
 | 11 | Express Server | Node.js, Express | 🖥️ Backend | [GitHub](https://github.com/dhairyagothi/100_days_100_web_project) |
 | 12 | Gmail Nodemailer | Node.js, Nodemailer | 📧 Backend | [GitHub](https://github.com/dhairyagothi/100_days_100_web_project/tree/Main/public/gmail_nodemailer) |
 | 13 | MERN Login Form | MongoDB, Express, React, Node | 🔐 Full-Stack | [GitHub](https://github.com/dhairyagothi/100_days_100_web_project/tree/Main/public/loginusingmern) |
 | 14 | File Uploader | Node.js, Express | 📁 Utility | [GitHub](https://github.com/dhairyagothi/100_days_100_web_project/tree/Main/public/file_uploader) |
-| 15 | Progress Bar | HTML, CSS, JS | 📊 UI Component | [View Demo](https://100-days-100-web-project.vercel.app/public/progress_bar/progress_bar) |
+| 15 | Progress Bar | HTML, CSS, JS | 📊 UI Component | [View Demo](https://100-days-100-web-project.vercel.app/public/progress_bar/progress_bar.html) |
 | 16 | Custom Scroll Bar | CSS | 🎨 UI Component | [View Demo](https://100-days-100-web-project.vercel.app/) |
-| 17 | Swiper API Slider | HTML, CSS, JS | 🖼️ Slider | [View Demo](https://100-days-100-web-project.vercel.app/public/slider%20box) |
-| 18 | Carousel Solar System | HTML, CSS, JS | 🪐 Animation | [View Demo](https://100-days-100-web-project.vercel.app/public/carousal) |
-| 19 | Plant Website | HTML, CSS, JS | 🌱 Website | [View Demo](https://100-days-100-web-project.vercel.app/public/plantwebsite/plant) |
+| 17 | Swiper API Slider | HTML, CSS, JS | 🖼️ Slider | [View Demo](https://100-days-100-web-project.vercel.app/public/slider%20box/index.html) |
+| 18 | Carousel Solar System | HTML, CSS, JS | 🪐 Animation | [View Demo](https://100-days-100-web-project.vercel.app/public/carousal/index.html) |
+| 19 | Plant Website | HTML, CSS, JS | 🌱 Website | [View Demo](https://100-days-100-web-project.vercel.app/public/plantwebsite/plant.html) |
 | 20 | EveSparks | HTML, CSS, JS | ✨ Website | [View Demo](https://evesparks.onrender.com/) |
 | 21 | React Video Slider | React, Vite | 🎥 React App | [GitHub](https://github.com/dhairyagothi/100_days_100_web_project/tree/Main/public/travel_website) |
-| 22 | Page Loader | HTML, CSS, JS | ⏳ Animation | [View Demo](https://100-days-100-web-project.vercel.app/public/pageloader/pageloader) |
-| 23 | Jarvis AI Assistant | HTML, CSS, JS | 🤖 AI | [View Demo](https://100-days-100-web-project.vercel.app/public/Jarvis-AI-main) |
-| 24 | AI ChatBot | HTML, CSS, JS | 💬 AI | [View Demo](https://100-days-100-web-project.vercel.app/public/AI%20ChatBot/chatbot) |
-| 25 | Tic-Tac-Toe | HTML, CSS, JS | 🎮 Game | [View Demo](https://100-days-100-web-project.vercel.app/public/TicTacToe) |
+| 22 | Page Loader | HTML, CSS, JS | ⏳ Animation | [View Demo](https://100-days-100-web-project.vercel.app/public/pageloader/pageloader.html) |
+| 23 | Jarvis AI Assistant | HTML, CSS, JS | 🤖 AI | [View Demo](https://100-days-100-web-project.vercel.app/public/Jarvis-AI-main/index.html) |
+| 24 | AI ChatBot | HTML, CSS, JS | 💬 AI | [View Demo](https://100-days-100-web-project.vercel.app/public/AI%20ChatBot/chatbot.html) |
+| 25 | Tic-Tac-Toe | HTML, CSS, JS | 🎮 Game | [View Demo](https://100-days-100-web-project.vercel.app/public/TicTacToe/index.html) |
 | 26 | Maze Game | HTML, CSS, JS | 🎮 Game | [View Demo](https://100-days-100-web-project.vercel.app/public/Maze-Game-main) |
 | 27 | Memory Game | HTML, CSS, JS | 🧠 Game | [View Demo](https://100-days-100-web-project.vercel.app/public/MemoryGame) |
 | 28 | Wordle Clone | HTML, CSS, JS | 🎮 Game | [View Demo](https://100-days-100-web-project.vercel.app/public/WORDLE) |
