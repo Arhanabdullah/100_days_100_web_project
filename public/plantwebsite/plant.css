@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-
+ 
 * {
     box-sizing: border-box;
     margin: 0;
@@ -152,6 +152,7 @@ body::before {
     text-align: center;
     font-size: 36px;
     margin: 50px 0;
+    font-style: bold;
 }
 
 .block2 {
@@ -326,7 +327,7 @@ footer {
     }
 
     .block2-head {
-        font-size: 28px;
+        font-size: 36px;
     }
 
     .about-section, .newsletter {
@@ -345,6 +346,7 @@ footer {
         width: 100%;
     }
 }
+
 
 
 /* Dark Mode */
@@ -450,17 +452,17 @@ body.dark-mode {
     border: 1px solid rgba(198, 198, 198, 0.3);
 }
 
-.items ul li a.dark-mode {
-    color: white;
+
+
+.theme-switch-wrapper { display: flex; align-items: center; } #dark-mode-toggle { display: none; } .theme-label { width: 72px; height: 34px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.15); border-radius: 50px; position: relative; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; backdrop-filter: blur(10px); transition: all 0.3s ease; } /* Sliding Circle */ .theme-label::after { content: ""; position: absolute; width: 26px; height: 26px; left: 4px; top: 3px; border-radius: 50%; background: linear-gradient(135deg, #ffcc89, #d8860b); transition: all 0.3s ease; } /* Toggle Active */ #dark-mode-toggle:checked + .theme-label { background: rgba(50,50,50,0.85); } #dark-mode-toggle:checked + .theme-label::after { transform: translateX(38px); background: linear-gradient(135deg, #777, #444); } /* Toggle Icons */ .sun-icon, .moon-icon { font-size: 14px; color: white; z-index: 2; } /* Better Navbar Alignment */ .items ul { align-items: center; } .icons { margin-right: 10px; } .icons ul { display: flex; align-items: center; gap: 20px; list-style: none; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.08); padding: 10px 16px; border-radius: 14px; backdrop-filter: blur(12px); box-shadow: 0 4px 18px rgba(0,0,0,0.15); } /* Stronger Visibility In Dark Mode */ body.dark-mode .icons ul { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 4px 20px rgba(0,0,0,0.45); } /* Navbar Polish */ .navbar { padding: 14px 50px; transition: all 0.3s ease; } /* Smooth Transitions */ body, .navbar, .block1, .block2, .about-section, .newsletter, footer, .buy-button, .theme-label, .icons ul { transition: all 0.3s ease; } /* ========================= OVERLAY ========================= */ body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.18); z-index: -1; transition: background 0.3s ease; } /* Stronger Dark Overlay */ body.dark-mode::before { background: rgba(0, 0, 0, 0.55); } /* ========================= DARK MODE ========================= */ body.dark-mode { background-image: url("images/bg.png"); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; background-position: center center; color: #f5f5f5; } /* Navbar */ .navbar.dark-mode { background: rgba(0, 0, 0, 0.82); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.05); box-shadow: 0 4px 20px rgba(0,0,0,0.45); } /* Sections */ .block1.dark-mode, .block2.dark-mode, .about-section.dark-mode, .newsletter.dark-mode, footer.dark-mode { background: transparent; border: none; backdrop-filter: none; } /* Headings */ .dark-mode .block1-text h1, .dark-mode .about-section h2, .dark-mode .newsletter h2 { color: #ffffff; text-shadow: 0 4px 18px rgba(0,0,0,0.75); } /* Trendy Plants Heading */ .dark-mode .block2-head { color: #ffffff; text-shadow: 0 3px 14px rgba(0,0,0,0.8); letter-spacing: 1px; font-weight: 700; } /* Navigation Links */ .items ul li a.dark-mode { color: #f3f3f3; } .items ul li a.dark-mode:hover { color: #7CFC98; } .items ul li a.dark-mode::after { background-color: #7CFC98; } /* Buttons */ .buy-button.dark-mode { background: #1f8f4e; color: white; } .buy-button.dark-mode:hover { background: #27a85d; } .dark-mode .newsletter button { background: #1f8f4e; } .dark-mode .newsletter button:hover { background: #27a85d; } /* Icon Adjustment */ .dark-mode-icon { filter: brightness(0) invert(1); }
+
+.sun-icon,
+.moon-icon {
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    z-index: 2;
 }
 
-.items ul li a.dark-mode::after {
-    background-color: #ffc107 ;/* Dark mode accent color */
-}
-
-.buy-button.dark-mode {
-    background-color: #ffc107 ;
-}
 
 .buy-button.dark-mode:hover {
     background-color: #ffc107 ;
@@ -484,3 +486,9 @@ body.dark-mode {
 .dark-mode .icons ul li img{
     filter: brightness(0) invert(1);
 }
+
+.theme-label {
+    overflow: hidden;
+}
+.theme-switch-wrapper { margin-right: 8px; }
+
