@@ -70,11 +70,11 @@
 4. Push and create a Pull Request  
 
 ---
-
 ## 👨‍💻 Author
 
 Gopal Wagh
-- Github - https://github.com/gopalwagh.git
+
+- GitHub: https://github.com/gopalwagh
 
 ---
 
