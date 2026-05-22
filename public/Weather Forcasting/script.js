@@ -91,6 +91,7 @@ function resetWeatherSummary() {
     sunrise: '—',
     sunset: '—'
   });
+  hideRecommendations();
 }
 
 function formatTime(isoDateTime) {
@@ -198,6 +199,64 @@ function updateWeatherCard(cityLabel, summary) {
   });
 }
 
+function getRecommendations(temp, weatherCode) {
+  let clothing = "";
+  let travel = "";
+
+  const isRain = [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99].includes(weatherCode);
+  const isSnow = [71, 73, 75, 77, 85, 86].includes(weatherCode);
+
+  if (isRain) {
+    clothing = "☔ <strong>Umbrella & Rainwear:</strong> It's currently wet or raining. Carry an umbrella or wear a waterproof raincoat/jacket, and opt for water-resistant footwear.";
+  } else if (isSnow) {
+    clothing = "❄️ <strong>Heavy Winter Wear:</strong> It is snowing. Dress in thick, warm layers with a thermal base, a heavy down jacket, gloves, scarf, beanie, and insulated boots.";
+  } else if (temp < 15) {
+    clothing = "🧥 <strong>Warm Outerwear:</strong> The weather is chilly. A thick sweater, fleece, or windbreaker jacket, along with long pants, is recommended to stay warm.";
+  } else if (temp > 28) {
+    clothing = "👕 <strong>Light & Breathable:</strong> It's warm/hot. Wear lightweight, light-colored cotton or linen clothing, sunglasses, and a sun hat if heading outdoors.";
+  } else {
+    clothing = "👟 <strong>Casual/Comfortable Wear:</strong> The temperature is mild and pleasant. A standard t-shirt, jeans, or a light cardigan/hoodie will be perfectly comfortable.";
+  }
+
+  const isThunderstorm = [95, 96, 99].includes(weatherCode);
+  const isHeavyRain = [65, 82].includes(weatherCode);
+  const isFog = [45, 48].includes(weatherCode);
+
+  if (isThunderstorm) {
+    travel = "⚡ <strong>Severe Warning:</strong> Thunderstorms active. Avoid outdoor activities, seek shelter indoors immediately, and stay away from open windows and tall metal structures.";
+  } else if (isHeavyRain) {
+    travel = "🚗 <strong>Hazardous Driving:</strong> Heavy downpour is causing low visibility and wet roads. Drive slowly, maintain safe following distance, and avoid flooded areas.";
+  } else if (isFog) {
+    travel = "🌫️ <strong>Dense Fog:</strong> Visibility is severely reduced. Use low-beam fog lights while driving, reduce your speed, and stay alert on the roads.";
+  } else if (temp > 35) {
+    travel = "☀️ <strong>Extreme Heat Advisory:</strong> Extremely hot weather. Stay indoors as much as possible, keep hydrated by drinking water/electrolytes, and avoid strenuous outdoor exercise during peak heat hours (11 AM - 4 PM).";
+  } else {
+    travel = "🟢 <strong>Safe to Travel:</strong> Weather conditions are clear and highly favorable. Perfect for road trips, outdoor walks, or sightseeing. Have a safe journey!";
+  }
+
+  return { clothing, travel };
+}
+
+function updateRecommendations(temp, weatherCode) {
+  const recsCard = document.getElementById('recommendations-card');
+  const clothingRecEl = document.getElementById('clothing-recommendation');
+  const travelRecEl = document.getElementById('travel-recommendation');
+
+  if (!recsCard || !clothingRecEl || !travelRecEl) return;
+
+  const recs = getRecommendations(temp, weatherCode);
+  clothingRecEl.innerHTML = recs.clothing;
+  travelRecEl.innerHTML = recs.travel;
+  recsCard.style.display = 'block';
+}
+
+function hideRecommendations() {
+  const recsCard = document.getElementById('recommendations-card');
+  if (recsCard) {
+    recsCard.style.display = 'none';
+  }
+}
+
 function setRowMessage(row, message) {
   row.querySelectorAll('td').forEach((cell) => {
     cell.textContent = message;
@@ -251,6 +310,11 @@ async function loadCityWeather(city, options = {}) {
     const label = formatCityLabel(location, normalizedCity);
 
     updateWeatherCard(label, summary);
+
+    if (weatherData && weatherData.current) {
+      updateRecommendations(weatherData.current.temperature_2m, weatherData.current.weather_code);
+    }
+
     setStatus(updateTable ? `Updated ${label} and the comparison table.` : `Showing weather for ${label}.`, 'success');
 
     return { location, weatherData };
