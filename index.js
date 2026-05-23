@@ -66,7 +66,7 @@ const PROJECT_DATA = [
     ['Day 46', 'Palindrome Generator', './public/Palindrome_Generator/index.html', 'javascript', 'beginner'],
     ['Day 47', 'Ping Pong Game', './public/ping/index.html', 'game canvas', 'intermediate'],
     ['Day 48', 'TextToVoiceConverter', './public/TextToVoiceConverter/index.html', 'api javascript', 'intermediate'],
-    ['Day 49', 'Url Shortener', 'https://github.com/chandankoranga02/100_days_100_web_project/tree/Main/public/url_shortener', 'api javascript', 'intermediate'],
+    ['Day 49', 'Url Shortener', 'https://url.appnests.in', 'api javascript', 'intermediate'],
     ['Day 50', 'Recipe Genie', './public/recipe/main.html', 'api javascript', 'intermediate'],
     ['Day 51', 'Netflix Landing Page Clone', './public/Netflix_Cloning/Index.html', 'css', 'beginner'],
     ['Day 52', 'ClimaCode', './public/ClimaCode%202.0/index.html', 'weather api', 'intermediate'],
