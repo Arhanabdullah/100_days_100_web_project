@@ -236,6 +236,7 @@ const PROJECT_DATA = [
   ['Day 162', 'Color Palette From Art Generator', './public/ColorPaletteArtGenerator/index.html', 'html css javascript', 'intermediate'],
   ['Day 163' , 'Ai Image Editor' , './public/image-editor/index.html' , 'edits images' , 'advanced'],
   ['Day 164', 'Code Visualizer Playground', './public/code-visualizer-playground/index.html', 'tool javascript html css', 'advanced'],
+  ['Day 165' , 'Amazon Clone' , './public/AmazonClone/index.html', 'Amazon Clone HTML CSS JavaScript', 'beginner'],
 
 ];
 const PROJECTS = PROJECT_DATA;
