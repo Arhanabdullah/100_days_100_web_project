@@ -1316,12 +1316,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Re-render the grid when the browser window is resized to adapt pagination density instantly
 window.addEventListener(
-'resize',
-debounce(() => {
-  if (hasProjectGrid()) {
-    renderGrid();
-  }
-}, 180));
+  'resize',
+  debounce(() => {
+    if (hasProjectGrid()) {
+      renderGrid();
+    }
+  }, 180)
+);
 
 /* ============================================================
    EXPOSE FUNCTIONS TO GLOBAL SCOPE
