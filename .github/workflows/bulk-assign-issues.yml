@@ -31,10 +31,12 @@ jobs:
               return;
             }
 
-            const startIssue = Math.min(fromIssue, toIssue);
-            const endIssue = Math.max(fromIssue, toIssue);
+            let startIssue = fromIssue;
+            let endIssue = toIssue;
 
             if (fromIssue > toIssue) {
+              startIssue = toIssue;
+              endIssue = fromIssue;
               core.info(`Received reversed range (${fromIssue} -> ${toIssue}); processing as ${startIssue} -> ${endIssue}.`);
             }
 
