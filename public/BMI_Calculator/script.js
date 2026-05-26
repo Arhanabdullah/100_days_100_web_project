@@ -228,11 +228,13 @@ const bmiChart = new Chart(ctx, {
         scales:{
             y:{
                 beginAtZero:true
+
             }
         }
     }
 
 });
+
 
 /* UPDATE CHART */
 
@@ -240,13 +242,14 @@ function updateChart(bmi){
 
     bmiLabels.push(new Date().toLocaleTimeString());
 
+
     bmiData.push(bmi);
 
     bmiChart.update();
 
 }
 
-/* THEME SWITCHER */
+
 
 function changeTheme(theme){
 

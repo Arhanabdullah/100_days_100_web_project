@@ -240,10 +240,10 @@ body{
     line-height:1.6;
     font-size:17px;
 }
-
 /* CHART */
 
 .chart-section{
+
     width:95%;
     margin:50px auto;
     padding:40px;
@@ -266,6 +266,7 @@ canvas{
 }
 
 /* RESPONSIVE */
+
 
 @media(max-width:1000px){
 
