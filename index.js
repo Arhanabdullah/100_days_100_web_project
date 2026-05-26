@@ -611,6 +611,9 @@ const PROJECT_DESCRIPTIONS = {
 
   "Focus Timer":
     "A minimal Pomodoro-style productivity timer to boost focus with custom work and break intervals. Built with React, TypeScript and Tailwind CSS.",
+  
+  "Twitter-clone":
+  "Frontend recreation of Twitter's home page focusing on modern UI design. Strengthens Tailwind CSS and frontend development skills."
 
 };
 
