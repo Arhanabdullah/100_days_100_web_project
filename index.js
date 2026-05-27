@@ -370,8 +370,15 @@ function getAllTechnologies() {
    BOOKMARK + RECENT SYSTEM
 ============================================================ */
 
-let bookmarkedProjects = JSON.parse(localStorage.getItem('bookmarkedProjects')) || [];
-let recentProjects = JSON.parse(localStorage.getItem('recentProjects')) || [];
+let bookmarkedProjects = [];
+let recentProjects = [];
+
+try {
+  bookmarkedProjects = JSON.parse(localStorage.getItem('bookmarkedProjects')) || [];
+  recentProjects = JSON.parse(localStorage.getItem('recentProjects')) || [];
+} catch (error) {
+  console.warn('localStorage is not available or access is denied:', error.message);
+}
 
 let showAllBookmarks = false;
 let showAllRecent = false;
@@ -727,7 +734,11 @@ function toggleBookmark(project) {
     showToast('Project bookmarked');
   }
 
-  localStorage.setItem('bookmarkedProjects', JSON.stringify(bookmarkedProjects));
+  try {
+    localStorage.setItem('bookmarkedProjects', JSON.stringify(bookmarkedProjects));
+  } catch (error) {
+    console.warn('Could not save bookmark due to localStorage restrictions');
+  }
   renderBookmarks();
   renderGrid();
   renderRecentProjects();
@@ -741,7 +752,11 @@ function trackRecentProject(project) {
     recentProjects.pop();
   }
 
-  localStorage.setItem('recentProjects', JSON.stringify(recentProjects));
+  try {
+    localStorage.setItem('recentProjects', JSON.stringify(recentProjects));
+  } catch (error) {
+    console.warn('Could not save recent projects due to localStorage restrictions');
+  }
   renderRecentProjects();
 }
 
