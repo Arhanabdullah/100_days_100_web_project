@@ -523,3 +523,22 @@ h3 {
   cursor:pointer;
   text-align:right;
 }
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #222;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.4s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
