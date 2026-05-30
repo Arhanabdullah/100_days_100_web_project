@@ -364,6 +364,25 @@ document.addEventListener('DOMContentLoaded', () => {
   el('ref-toggle-btn').addEventListener('click', toggleRef);
   el('encode-btn').addEventListener('click', () => setMode('encode'));
   el('decode-btn').addEventListener('click', () => setMode('decode'));
-  el('swap-btn').addEventListener('click', swapPanels); // NEW
+
+  // ── Keyboard shortcuts ──────────────────────────────────────────
+  // When inside textarea: only Escape (clear) and Ctrl+Enter (play)
+  // Outside textarea: Ctrl+Shift+C (copy)
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'TEXTAREA') {
+      if (e.key === 'Escape') { clearInput(); return; }
+      if (e.ctrlKey && e.key === 'Enter') {
+        e.preventDefault();
+        togglePlay();
+        return;
+      }
+      return;
+    }
+    if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+      e.preventDefault();
+      copyOutput();
+    }
+  });
+
   buildRefTable();
 });

@@ -547,3 +547,34 @@ input[type="range"]::-moz-range-thumb {
     grid-template-columns: repeat(auto-fill, minmax(62px, 1fr));
   }
 }
+/* ── Keyboard hints bar ────────────────────────────────────────── */
+.kbd-hints {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  opacity: 0.5;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.kbd-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+kbd {
+  background: var(--surface-mid);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 0.7rem;
+  font-family: inherit;
+}
+
+@media (max-width: 640px) {
+  .kbd-hints { display: none; }
+}
