@@ -7,7 +7,7 @@
 
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #9BEC00, #06D001, #059212);
+  background: linear-gradient(135deg, #9bec00, #06d001, #059212);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,7 +19,7 @@ body {
   max-width: 95%;
   padding: 30px;
   border-radius: 26px;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(20px);
 }
 
@@ -44,7 +44,7 @@ body {
   border: none;
   padding: 10px;
   border-radius: 12px;
-  background: rgba(255,255,255,0.3);
+  background: rgba(255, 255, 255, 0.3);
   color: white;
   cursor: pointer;
 }
@@ -64,7 +64,7 @@ body {
 }
 
 .card {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
   padding: 18px;
   border-radius: 20px;
   margin-bottom: 20px;
@@ -106,7 +106,7 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 6px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .extra-weather {
@@ -122,6 +122,3 @@ body {
 .hourly-forecast div {
   text-align: center;
 }
-
-
-

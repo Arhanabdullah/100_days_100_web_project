@@ -41,16 +41,19 @@ function getWeather() {
   errorMessage.innerText = "";
   if (!city) return;
 
-  fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`)
-    .then(res => res.json())
-    .then(loc => {
+  fetch(
+    `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`,
+  )
+    .then((res) => res.json())
+    .then((loc) => {
       if (!loc.length) {
         errorMessage.innerText = "Invalid city name.";
         resetUI();
         return;
       }
       const { lat, lon, name, state, country } = loc[0];
-      locationEl.innerText = name + (state ? ", " + state : "") + ", " + getCountryName(country);
+      locationEl.innerText =
+        name + (state ? ", " + state : "") + ", " + getCountryName(country);
       fetchWeather(lat, lon);
       fetchAQI(lat, lon);
     });
@@ -58,23 +61,33 @@ function getWeather() {
 
 // Weather + Extra Info + 5-hour forecast
 function fetchWeather(lat, lon) {
-  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`)
-    .then(res => res.json())
-    .then(d => {
+  fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`,
+  )
+    .then((res) => res.json())
+    .then((d) => {
       temperature.innerText = `${Math.round(d.main.temp)}°C`;
       condition.innerText = d.weather[0].description;
       humidity.innerText = d.main.humidity + "%";
       wind.innerText = (d.wind.speed * 3.6).toFixed(1) + " km/h";
       feelsLikeEl.innerText = `${Math.round(d.main.feels_like)}°C - ${getFeelsLikeComment(d.main.feels_like)}`;
-      sunriseEl.innerText = new Date(d.sys.sunrise * 1000).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-      sunsetEl.innerText = new Date(d.sys.sunset * 1000).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+      sunriseEl.innerText = new Date(d.sys.sunrise * 1000).toLocaleTimeString(
+        [],
+        { hour: "2-digit", minute: "2-digit" },
+      );
+      sunsetEl.innerText = new Date(d.sys.sunset * 1000).toLocaleTimeString(
+        [],
+        { hour: "2-digit", minute: "2-digit" },
+      );
     });
 
-  fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&cnt=5&appid=${API_KEY}`)
-    .then(res => res.json())
-    .then(forecast => {
+  fetch(
+    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&cnt=5&appid=${API_KEY}`,
+  )
+    .then((res) => res.json())
+    .then((forecast) => {
       hourlyForecastEl.innerHTML = "";
-      forecast.list.forEach(item => {
+      forecast.list.forEach((item) => {
         const hour = new Date(item.dt * 1000).getHours();
         const temp = Math.round(item.main.temp);
         const iconUrl = `http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`;
@@ -87,15 +100,24 @@ function fetchWeather(lat, lon) {
 
 // AQI
 function fetchAQI(lat, lon) {
-  fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`)
-    .then(res => res.json())
-    .then(d => {
+  fetch(
+    `https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${API_KEY}`,
+  )
+    .then((res) => res.json())
+    .then((d) => {
       const c = d.list[0].components;
       const aqi = calculateUSAQI(c.pm2_5);
       aqiValue.innerText = aqi;
       aqiStatus.innerText = getAQIStatus(aqi);
       aqiRecommendation.innerText = getAQIRecommendation(aqi);
-      aqiTrend.innerText = lastAQI === null ? "Trend data unavailable" : aqi > lastAQI ? "AQI worsening" : aqi < lastAQI ? "AQI improving" : "AQI stable";
+      aqiTrend.innerText =
+        lastAQI === null
+          ? "Trend data unavailable"
+          : aqi > lastAQI
+            ? "AQI worsening"
+            : aqi < lastAQI
+              ? "AQI improving"
+              : "AQI stable";
       lastAQI = aqi;
       const color = getAQIColor(aqi);
       aqiValue.style.color = color;
@@ -120,8 +142,17 @@ function getFeelsLikeComment(temp) {
 }
 
 function calculateUSAQI(pm25) {
-  const bp = [[0,12,0,50],[12.1,35.4,51,100],[35.5,55.4,101,150],[55.5,150.4,151,200],[150.5,250.4,201,300],[250.5,500.4,301,500]];
-  for (let b of bp) if (pm25 >= b[0] && pm25 <= b[1]) return Math.round(((b[3]-b[2])/(b[1]-b[0]))*(pm25-b[0])+b[2]);
+  const bp = [
+    [0, 12, 0, 50],
+    [12.1, 35.4, 51, 100],
+    [35.5, 55.4, 101, 150],
+    [55.5, 150.4, 151, 200],
+    [150.5, 250.4, 201, 300],
+    [250.5, 500.4, 301, 500],
+  ];
+  for (let b of bp)
+    if (pm25 >= b[0] && pm25 <= b[1])
+      return Math.round(((b[3] - b[2]) / (b[1] - b[0])) * (pm25 - b[0]) + b[2]);
   return 500;
 }
 
