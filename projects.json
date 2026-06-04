@@ -1895,6 +1895,18 @@
     "projectPath": "./public/AI-Semiconductor-Circuit-Builder/index.html"
   },
   {
+  "projectNo": 210,
+  "projectName": "Kanban Board",
+  "projectPath": "./public/Kanban_Board/index.html",
+  "techStack": [
+    "html",
+    "css",
+    "javascript"
+  ],
+  "difficulty": "intermediate",
+  "projectDesc": "A responsive Kanban Board application featuring drag-and-drop task management, task creation, editing, deletion, local storage persistence, and dark/light theme support."
+},
+  {
     "projectNo": 208,
     "projectName": "Rock_Paper_Scissors",
     "projectType": "Game",
