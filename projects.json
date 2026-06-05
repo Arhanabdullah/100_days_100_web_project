@@ -1910,5 +1910,13 @@
   "techStack": ["html", "css", "javascript"],
   "difficulty": "intermediate",
   "projectDesc": "A responsive Kanban Board application featuring drag-and-drop task management, task creation, editing, deletion, local storage persistence, and dark/light theme support."
+},
+  {
+  "projectNo": 210,
+  "projectName": "Cricket Scorecard",
+  "projectPath": "./public/Cricket-Scorecard/index.html",
+  "techStack": ["html", "css", "javascript"],
+  "difficulty": "advanced",
+  "projectDesc": "A tool to view the schedule of upcoming matches and watch live scorecard."
 }
 ]
