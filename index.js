@@ -137,15 +137,15 @@ function loadProjects() {
 
 // Start fetching immediately
 loadProjects().catch((err) => {
-    console.error('Critical initialization error:', err);
-    const grid = document.getElementById('projectGrid');
-    if (grid) {
-        grid.innerHTML = `<div style="text-align:center; padding: 2rem; color: var(--text-color, #333);">
+  console.error('Critical initialization error:', err);
+  const grid = document.getElementById('projectGrid');
+  if (grid) {
+    grid.innerHTML = `<div style="text-align:center; padding: 2rem; color: var(--text-color, #333);">
             <h2><i class="fas fa-exclamation-triangle"></i> Failed to Load Projects</h2>
             <p>Please check your connection or try again later.</p>
             <p style="font-family: monospace; color: red;">${escapeHTML(err.message)}</p>
         </div>`;
-    }
+  }
 });
 
 /* ============================================================
@@ -177,8 +177,8 @@ function isSourceOnlyProject(day, tags) {
   const tagList = Array.isArray(tags)
     ? tags
     : String(tags || "")
-        .split(/\s+/)
-        .filter(Boolean);
+      .split(/\s+/)
+      .filter(Boolean);
   return tagList.includes(SOURCE_ONLY_TAG);
 }
 
@@ -221,7 +221,14 @@ function resolveProjectUrls(day, name, url, tags) {
       if (demoUrl.startsWith("./")) {
         demoUrl = basePrefix + demoUrl.substring(2);
       }
-    } catch (error) {}
+    } catch (error) { }
+  }
+  if (day === "Day 214") {
+    return {
+      demoUrl: "https://html-css-animation-01.netlify.app/",
+      sourceUrl: "https://github.com/dhairyagothi/100_day_100_web_project/blob/Main/public/Html_css_animation/index.html",
+      sourceOnly: false
+    };
   }
 
   return { demoUrl, sourceUrl, sourceOnly };
@@ -325,14 +332,15 @@ function buildProjectCardHTML({
   // derived from one.  sanitizeUrl() blocks javascript:, data:, vbscript:
   // and any other executable protocol while leaving valid http(s) / relative
   // paths untouched.
-  const safeDemoUrl   = sanitizeUrl(demoUrl);
+  const safeDemoUrl = sanitizeUrl(demoUrl);
   const safeSourceUrl = sanitizeUrl(sourceUrl);
+
 
   const tagsArray = Array.isArray(tags)
     ? tags.filter((t) => t !== SOURCE_ONLY_TAG)
     : String(tags || "")
-        .split(/\s+/)
-        .filter((t) => t && t !== SOURCE_ONLY_TAG);
+      .split(/\s+/)
+      .filter((t) => t && t !== SOURCE_ONLY_TAG);
 
   // SECURITY: escapeHTML on every tag token prevents <script> / event-handler
   // injection via the techStack field in projects.json.
@@ -344,9 +352,9 @@ function buildProjectCardHTML({
 
   // SECURITY: description, day, name and category are all escaped before
   // being written into innerHTML.
-  const description  = escapeHTML(getProjectDescription(project));
-  const safeDay      = escapeHTML(day);
-  const safeName     = escapeHTML(name);
+  const description = escapeHTML(getProjectDescription(project));
+  const safeDay = escapeHTML(day);
+  const safeName = escapeHTML(name);
   const safeCategory = escapeHTML(category);
 
   const sourceOnlyBadge = sourceOnly
@@ -369,7 +377,7 @@ function buildProjectCardHTML({
                         <i class="fab fa-github" aria-hidden="true"></i> Code
                     </a>`;
 
-return {
+  return {
     html: `
             <div class="card-meta">
                 <span class="card-day">${safeDay}</span>
@@ -385,13 +393,12 @@ return {
 
             <h3 class="card-name">${safeName}</h3>
 
-            ${
-              showDescription
-                ? `<div class="card-description">
+            ${showDescription
+        ? `<div class="card-description">
     ${description}
 </div>`
-                : ""
-            }
+        : ""
+      }
             <div class="card-tags">${tagsHTML}</div>
             <div class="card-footer">
                 <div class="card-actions-left">
@@ -410,7 +417,7 @@ return {
 
 function attachProjectCardInteraction(card, demoUrl, projectData = null) {
   card.style.cursor = "pointer";
-  
+
   const activateCard = (e) => {
     if (e.target.closest("a, button")) return;
     if (!demoUrl) return;
@@ -527,9 +534,9 @@ function clearAllTechFilters() {
  * executable context.
  */
 function updateTechFilterDisplay() {
-  const container    = document.getElementById("activeTechFilters");
+  const container = document.getElementById("activeTechFilters");
   const tagsContainer = document.getElementById("techFilterTags");
-  const clearBtn     = document.getElementById("clearTechFilter");
+  const clearBtn = document.getElementById("clearTechFilter");
 
   if (!container || !tagsContainer) return;
 
@@ -1322,7 +1329,7 @@ function renderBookmarks() {
     if (!day || !name) return;
 
     const category = getCategoryFromTags(tags, name);
-    
+
     // Updated to use the secure HTML-string approach
     const { html, demoUrl, sourceOnly } = buildProjectCardHTML({
       day,
@@ -1384,7 +1391,7 @@ function renderRecentProjects() {
     const isBookmarked = bookmarkedProjects.some(
       (item) => normalizeProjectEntry(item).day === day,
     );
-    
+
     // Updated to use the secure HTML-string approach
     const { html, demoUrl, sourceOnly } = buildProjectCardHTML({
       day,

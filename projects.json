@@ -1942,5 +1942,13 @@
   "techStack": ["html", "css"],
   "difficulty": "intermediate",
   "projectDesc": "A responsive photography portfolio and gallery website designed to showcase visual content through structured layouts, image presentation sections, and modern styling. Features an engaging user interface optimized for desktop and mobile viewing."
+},
+{
+  "projectNo": 214,
+  "projectName": "HTML & CSS Animation",
+  "projectPath": "./public/Html_css_animation/index.html",
+  "techStack": ["html", "css", "animation"],
+  "difficulty": "beginner",
+  "projectDesc": "Collection of HTML/CSS animations demonstrating keyframe effects and transitions."
 }
 ]
