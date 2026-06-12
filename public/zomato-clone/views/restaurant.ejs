@@ -54,7 +54,9 @@
             <!-- Name + Rating -->
             <div class="top-row">
               <h3 class="card-name"><%= item.name %></h3>
-          
+           <span class="rating-badge">
+                <%= item.deliveryRating ? item.deliveryRating.toFixed(1) : (item.diningRating ? item.diningRating.toFixed(1) : "4.0") %>★
+              </span>
             </div>
 
            
