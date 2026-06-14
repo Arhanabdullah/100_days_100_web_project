@@ -2906,7 +2906,22 @@
   ],
   "difficulty": "advanced",
   "projectPath": "./public/MEMO 2.0/index.html"
-  }
+  },
+
+  {
+  "projectNo": 230,
+  "projectName": "Statistics Dashboard",
+  "projectType": "Tool",
+  "projectDesc": "A comprehensive statistics dashboard with localStorage tracking.",
+  "techStack": [
+    "html",
+    "css",
+    "javascript",
+    "localstorage"
+  ],
+  "difficulty": "beginner",
+  "projectPath": "./public/StatisticsDashboard/index.html"
+}
 
 
 ]
