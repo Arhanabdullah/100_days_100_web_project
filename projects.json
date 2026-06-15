@@ -5,7 +5,7 @@
     "projectType": "Tool",
     "projectDesc": "Manage daily tasks efficiently with an interactive checklist system. Add, track and organize activities using a simple productivity-focused interface.",
     "techStack": [
-      "javascript",
+      "javascript",  
       "todo"
     ],
     "difficulty": "beginner",
@@ -184,7 +184,7 @@
       "css"
     ],
     "difficulty": "beginner",
-    "projectPath": "./public/Custom Scroll Bar/index.html"
+   "projectPath": "./public/Custom-Scroll-Bar/index.html"
   },
   {
     "projectNo": 17,
@@ -1673,7 +1673,7 @@
     "projectDesc": "Machine learning project predicting sales trends from input data.",
     "techStack": [
       "machine",
-      "learning",
+      "learning",  
       "python",
       "javascript"
     ],
@@ -2881,7 +2881,7 @@
   {
     "projectNo": 228,
     "projectName": "Beat Maker",
-    "projectType": "Music",
+    "projectType": "Tool",
     "projectDesc": "Generate beats ",
     "techStack": [
       "html",
@@ -2894,14 +2894,46 @@
   },
   {
     "projectNo": 229,
+    "projectName": "MEMO 2.0",
+    "projectType": "Game",
+    "projectDesc": "A premium memory card matching game featuring SOLO and DUO modes, multiple difficulty levels, score tracking, timer-based gameplay, smooth card animations, and a luxury casino-inspired UI.",
+    "techStack": [
+      "html",
+      "css",
+      "javascript",
+      "game",
+      "memory"
+    ],
+    "difficulty": "advanced",
+    "projectPath": "./public/MEMO 2.0/index.html"
+   },
+  {
+    "projectNo": 230,
+    "projectName": "Statistics Dashboard",
+    "projectType": "Tool",
+    "projectDesc": "A comprehensive statistics dashboard with localStorage tracking.",
+    "techStack": [
+      "html",
+      "css",
+      "javascript",
+      "localstorage"
+    ],
+    "difficulty": "beginner",
+    "projectPath": "./public/StatisticsDashboard/index.html"
+  },
+  {
+    "projectNo": 231,
     "projectName": "MyCalendar",
     "projectType": "Tool",
     "projectDesc": "An interactive festival and event calendar with notes, themes, and persistent storage using localStorage.",
     "techStack": [
+      "html",
+      "css",
       "javascript",
       "calendar"
     ],
     "difficulty": "beginner",
     "projectPath": "./public/MyCalendar/index.html"
   }
+
 ]
