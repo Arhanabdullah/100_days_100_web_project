@@ -448,11 +448,8 @@
     const exitFocusBtn = document.getElementById('exitFocusBtn');
     
     function exitFocusMode() {
-      document.body.classList.remove('focus-mode');
-      if(exitFocusBtn) {
-        exitFocusBtn.style.display = 'none';
-      }
-      console.log('Focus mode exited');
+      // Dispatch event to trigger the main script's disableFocusMode
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     }
     
     if(exitFocusBtn) {

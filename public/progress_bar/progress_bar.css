@@ -701,6 +701,7 @@ body {
 }
 
 @media (max-width: 36rem) {
+  .preset-group { justify-content: center; }
   .progress-card {
     padding: 2.2rem 1.5rem;
   }
