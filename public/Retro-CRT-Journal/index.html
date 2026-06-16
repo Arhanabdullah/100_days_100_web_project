@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💾 Retro-CRT Terminal Journal</title>
+
+  <!-- Google Fonts for Retro/Monospace styling -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Silkscreen:wght@400;700&family=VT323&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-paperwhite crt-power-on">
+
+  <!-- Fullscreen Desktop Environment -->
+  <div class="retro-desktop">
+    
+    <!-- Monitor Outer Cabinet -->
+    <div class="monitor-cabinet">
+      
+      <!-- Inside CRT Bezel -->
+      <div class="crt-bezel">
+        
+        <!-- Interactive Screen Container -->
+        <div class="crt-screen" id="crt-screen">
+          
+          <!-- CRT Screen Effects Overlays -->
+          <div class="crt-overlay-scanlines"></div>
+          <div class="crt-overlay-flicker"></div>
+          <div class="crt-overlay-glass"></div>
+          <div class="crt-overlay-vignette"></div>
+          <div class="crt-power-animation-shield"></div>
+
+          <!-- Desktop Workspace (Visible only when power is on) -->
+          <div class="desktop-workspace">
+            
+            <!-- Grid wallpaper helper -->
+            <div class="desktop-grid-bg"></div>
+
+            <!-- Desktop Shortcut Icons -->
+            <div class="desktop-shortcuts">
+              <div class="shortcut-icon" id="icon-journal" title="Write Today's Entry">
+                <div class="pixel-icon-container">
+                  <i data-lucide="edit-3" class="pixel-icon"></i>
+                </div>
+                <span class="icon-label">My Diary</span>
+              </div>
+
+              <div class="shortcut-icon" id="icon-timeline" title="View Timeline Archive">
+                <div class="pixel-icon-container">
+                  <i data-lucide="calendar-days" class="pixel-icon"></i>
+                </div>
+                <span class="icon-label">Timeline</span>
+              </div>
+
+              <div class="shortcut-icon" id="icon-backup" title="Floppy Disk Operations">
+                <div class="pixel-icon-container">
+                  <i data-lucide="save" class="pixel-icon"></i>
+                </div>
+                <span class="icon-label">Floppy Drive</span>
+              </div>
+
+              <div class="shortcut-icon" id="icon-music" title="Retro Synth Jukebox">
+                <div class="pixel-icon-container">
+                  <i data-lucide="music-4" class="pixel-icon"></i>
+                </div>
+                <span class="icon-label">Jukebox</span>
+              </div>
+
+              <div class="shortcut-icon" id="icon-help" title="Read Manual">
+                <div class="pixel-icon-container">
+                  <i data-lucide="help-circle" class="pixel-icon"></i>
+                </div>
+                <span class="icon-label">Help.txt</span>
+              </div>
+            </div>
+
+            <!-- DRAGGABLE WINDOWS -->
+
+            <!-- 1. DIARY WINDOW -->
+            <div class="retro-window drag-window" id="win-journal" style="top: 30px; left: 180px; width: 520px; z-index: 100;">
+              <div class="window-header">
+                <div class="header-logo"><i data-lucide="book-open"></i></div>
+                <div class="header-title-bar">Journal_Workspace_v1.0.exe</div>
+                <div class="header-controls">
+                  <button class="win-btn win-min" title="Minimize"><i data-lucide="minus"></i></button>
+                  <button class="win-btn win-max" title="Maximize"><i data-lucide="square"></i></button>
+                  <button class="win-btn win-close" title="Close"><i data-lucide="x"></i></button>
+                </div>
+              </div>
+              
+              <!-- Window Body -->
+              <div class="window-body">
+                <!-- App Panel Inside Journal -->
+                <div class="diary-pane">
+                  
+                  <div class="pane-split">
+                    <!-- Left Sidebar (Metadata selection) -->
+                    <div class="pane-sidebar">
+                      <div class="meta-section">
+                        <label class="retro-label">📆 Select Date</label>
+                        <input type="date" id="diary-date-picker" class="retro-input-field">
+                        <span id="date-warning-msg" class="blink-warning hidden">⚠️ HISTORICAL LOG (LOCKED)</span>
+                      </div>
+
+                      <div class="meta-section">
+                        <label class="retro-label">✨ Mood State</label>
+                        <div class="mood-grid">
+                          <button class="mood-select-btn active" data-mood="rad" title="Radical / Excellent">
+                            <span class="m-emoji">🕶️</span> <span class="m-text">RAD</span>
+                          </button>
+                          <button class="mood-select-btn" data-mood="chill" title="Chill / Calm">
+                            <span class="m-emoji">🌊</span> <span class="m-text">CHILL</span>
+                          </button>
+                          <button class="mood-select-btn" data-mood="tired" title="Sleepy / Laggy">
+                            <span class="m-emoji">💤</span> <span class="m-text">SLEEPY</span>
+                          </button>
+                          <button class="mood-select-btn" data-mood="meh" title="Meh / Neutral">
+                            <span class="m-emoji">👾</span> <span class="m-text">MEH</span>
+                          </button>
+                          <button class="mood-select-btn" data-mood="glitchy" title="Glitchy / Anxious">
+                            <span class="m-emoji">⚡</span> <span class="m-text">GLITCH</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="meta-section">
+                        <div class="write-protect-card">
+                          <label class="switch-container">
+                            <input type="checkbox" id="write-protect-switch" checked>
+                            <span class="switch-slider"></span>
+                          </label>
+                          <div class="write-protect-info">
+                            <span class="wp-title">Write Protect</span>
+                            <span class="wp-status" id="wp-status-text">LOCKED</span>
+                          </div>
+                        </div>
+                        <p class="wp-tip-text">Lock past entries to prevent accidental changes, just like a floppy disk tab!</p>
+                      </div>
+                    </div>
+
+                    <!-- Right Writing Canvas -->
+                    <div class="pane-canvas">
+                      <div class="input-group">
+                        <label class="retro-label" for="entry-title">📌 Title Reflection</label>
+                        <input type="text" id="entry-title" class="retro-text-input" placeholder="Give your day a name..." disabled>
+                      </div>
+
+                      <div class="input-group flex-grow">
+                        <label class="retro-label" for="entry-body">📝 Log Output</label>
+                        <div class="textarea-container">
+                          <textarea id="entry-body" class="retro-textarea" placeholder="LOG_01: Start typing here... Typing clicks will be synthesized in real-time." disabled></textarea>
+                          <div class="textarea-lock-overlay" id="textarea-lock-overlay">
+                            <div class="lock-card">
+                              <i data-lucide="lock" class="lock-icon"></i>
+                              <span>Write Protect is Active</span>
+                              <button class="btn-retro btn-wp-unlock" id="btn-quick-unlock">Toggle Write Tab</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="diary-status-row">
+                        <span id="char-word-counter">0 chars | 0 words</span>
+                        <span id="save-status-msg" class="save-indicator">DRAFT UNCHANGED</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Footer Control Buttons -->
+                  <div class="diary-footer">
+                    <button class="btn-retro btn-danger" id="btn-delete-entry" disabled>
+                      <i data-lucide="trash-2"></i> Delete Entry
+                    </button>
+                    <button class="btn-retro btn-primary" id="btn-save-entry" disabled>
+                      <i data-lucide="save"></i> Format & Save
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. TIMELINE WINDOW -->
+            <div class="retro-window drag-window hidden" id="win-timeline" style="top: 50px; left: 100px; width: 440px; z-index: 90;">
+              <div class="window-header">
+                <div class="header-logo"><i data-lucide="calendar"></i></div>
+                <div class="header-title-bar">Timeline_Viewer.exe</div>
+                <div class="header-controls">
+                  <button class="win-btn win-min" title="Minimize"><i data-lucide="minus"></i></button>
+                  <button class="win-btn win-max" title="Maximize"><i data-lucide="square"></i></button>
+                  <button class="win-btn win-close" title="Close"><i data-lucide="x"></i></button>
+                </div>
+              </div>
+
+              <div class="window-body">
+                <div class="timeline-pane">
+                  <div class="timeline-filters">
+                    <div class="search-wrap">
+                      <input type="text" id="timeline-search" class="retro-text-input" placeholder="Search entries...">
+                      <i data-lucide="search" class="search-icon"></i>
+                    </div>
+                    <div class="timeline-mood-filter">
+                      <span class="lbl-small">Mood:</span>
+                      <select id="filter-mood-select" class="retro-select-field">
+                        <option value="all">ALL MOODS</option>
+                        <option value="rad">🕶️ RAD</option>
+                        <option value="chill">🌊 CHILL</option>
+                        <option value="tired">💤 SLEEPY</option>
+                        <option value="meh">👾 MEH</option>
+                        <option value="glitchy">⚡ GLITCH</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Scrollable Timeline Path -->
+                  <div class="timeline-list-container" id="timeline-list-container">
+                    <!-- Chronological items go here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. FLOPPY DISK BACKUP WINDOW -->
+            <div class="retro-window drag-window hidden" id="win-backup" style="top: 100px; left: 220px; width: 360px; z-index: 80;">
+              <div class="window-header">
+                <div class="header-logo"><i data-lucide="hard-drive"></i></div>
+                <div class="header-title-bar">A:\Disk_Management.exe</div>
+                <div class="header-controls">
+                  <button class="win-btn win-min" title="Minimize"><i data-lucide="minus"></i></button>
+                  <button class="win-btn win-max" title="Maximize"><i data-lucide="square"></i></button>
+                  <button class="win-btn win-close" title="Close"><i data-lucide="x"></i></button>
+                </div>
+              </div>
+
+              <div class="window-body">
+                <div class="backup-pane">
+                  <div class="disk-illustration">
+                    <div class="floppy-body">
+                      <div class="floppy-slider"></div>
+                      <div class="floppy-label">
+                        <span class="label-heading">DIARY BACKUP</span>
+                        <span class="label-date" id="backup-floppy-date">DATE: 2026.06.07</span>
+                      </div>
+                      <div class="floppy-write-hole"></div>
+                    </div>
+                  </div>
+
+                  <div class="backup-info">
+                    <span class="lbl-center text-accent">3.5" High Density Diskette</span>
+                    <span class="lbl-center" id="disk-capacity-text">Used Space: 0 Blocks</span>
+                  </div>
+
+                  <div class="backup-actions">
+                    <button class="btn-retro" id="btn-export-floppy">
+                      <i data-lucide="download"></i> Save to Floppy (JSON)
+                    </button>
+                    <div class="file-upload-wrapper">
+                      <button class="btn-retro" id="btn-trigger-import">
+                        <i data-lucide="upload"></i> Load from Floppy
+                      </button>
+                      <input type="file" id="floppy-import-input" accept=".json" style="display: none;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. JUKEBOX WINDOW -->
+            <div class="retro-window drag-window hidden" id="win-music" style="top: 140px; left: 80px; width: 320px; z-index: 70;">
+              <div class="window-header">
+                <div class="header-logo"><i data-lucide="music"></i></div>
+                <div class="header-title-bar">Cassette_Sequencer.exe</div>
+                <div class="header-controls">
+                  <button class="win-btn win-min" title="Minimize"><i data-lucide="minus"></i></button>
+                  <button class="win-btn win-max" title="Maximize"><i data-lucide="square"></i></button>
+                  <button class="win-btn win-close" title="Close"><i data-lucide="x"></i></button>
+                </div>
+              </div>
+
+              <div class="window-body">
+                <div class="music-pane">
+                  <div class="cassette-tape">
+                    <div class="tape-label">
+                      <span class="tape-label-line1">TUNE: Chiptune Synthesizer</span>
+                      <span class="tape-label-line2" id="tape-song-name">CHIPTUNE MELODY #1</span>
+                    </div>
+                    <div class="tape-center">
+                      <div class="spindle" id="spindle-left"></div>
+                      <div class="tape-window">
+                        <div class="tape-reel-lines"></div>
+                      </div>
+                      <div class="spindle" id="spindle-right"></div>
+                    </div>
+                  </div>
+
+                  <div class="synth-controls">
+                    <button class="music-ctrl-btn" id="btn-prev-tune" title="Previous Tune"><i data-lucide="chevrons-left"></i></button>
+                    <button class="music-ctrl-btn play-btn" id="btn-play-tune" title="Play/Pause Synthesis"><i data-lucide="play" id="music-play-icon"></i></button>
+                    <button class="music-ctrl-btn" id="btn-next-tune" title="Next Tune"><i data-lucide="chevrons-right"></i></button>
+                  </div>
+
+                  <div class="sound-sliders">
+                    <div class="slider-row">
+                      <span>BGM Vol:</span>
+                      <input type="range" id="volume-bgm" class="retro-slider" min="0" max="100" value="30">
+                    </div>
+                    <div class="slider-row">
+                      <span>Keys Vol:</span>
+                      <input type="range" id="volume-keyboard" class="retro-slider" min="0" max="100" value="60">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. HELP WINDOW -->
+            <div class="retro-window drag-window hidden" id="win-help" style="top: 80px; left: 160px; width: 420px; z-index: 60;">
+              <div class="window-header">
+                <div class="header-logo"><i data-lucide="file-text"></i></div>
+                <div class="header-title-bar">Help_Manual.txt</div>
+                <div class="header-controls">
+                  <button class="win-btn win-min" title="Minimize"><i data-lucide="minus"></i></button>
+                  <button class="win-btn win-max" title="Maximize"><i data-lucide="square"></i></button>
+                  <button class="win-btn win-close" title="Close"><i data-lucide="x"></i></button>
+                </div>
+              </div>
+
+              <div class="window-body">
+                <div class="help-pane text-style-terminal">
+                  <h2>💾 RETRO TERMINAL JOURNAL</h2>
+                  <hr class="dashed-divider">
+                  <p>Welcome to the 80s computing experience! This diary lets you log exactly one entry per day, saving everything in your local sandbox browser.</p>
+                  
+                  <h3>🔐 ONE ENTRY PER DAY & WRITE PROTECT</h3>
+                  <p>When write-protect is ENABLED, the page is locked and safe from edits. Slide the slider on the left sidebar to unlock writing.</p>
+                  
+                  <h3>🎹 REAL-TIME KEYBOARD SYNTH</h3>
+                  <p>As you type, Web Audio synthesizes real mechanical switch clicks! Adjust the volume in the Cassette Sequencer app.</p>
+                  
+                  <h3>📼 Procedural Chiptune BGM</h3>
+                  <p>The Cassette Sequencer synthesizes 8-bit lofi melodies directly inside your browser. No internet needed!</p>
+                  
+                  <h3>🎨 THEME SELECTOR</h3>
+                  <p>Use the tactile theme dials on the bottom right panel of the monitor to change phosphorus palettes.</p>
+                  
+                  <hr class="dashed-divider">
+                  <span class="lbl-center">SYSTEM ROM V1.0 - COPR. 1986</span>
+                </div>
+              </div>
+            </div>
+
+          </div> <!-- /desktop-workspace -->
+        </div> <!-- /crt-screen -->
+      </div> <!-- /crt-bezel -->
+
+      <!-- Monitor Chassis Bottom Controls Panel -->
+      <div class="monitor-controls">
+        
+        <!-- App Title Plate -->
+        <div class="branding-plate">
+          <span class="brand-text">GEMINI-CRT</span>
+          <span class="brand-subtext">MODEL 1986</span>
+        </div>
+
+        <!-- Power Indicator and Toggle button -->
+        <div class="chassis-control-block power-block">
+          <div class="led-indicator" id="power-led"></div>
+          <button class="chassis-btn btn-power" id="btn-power-switch" title="Toggle System Power">
+            <i data-lucide="power"></i>
+          </button>
+          <span class="chassis-label">POWER</span>
+        </div>
+
+        <!-- Theme dial knob block -->
+        <div class="chassis-control-block theme-dial-block">
+          <div class="theme-buttons-row">
+            <button class="dial-btn active" data-theme-id="paperwhite" title="Paperwhite Office Theme"></button>
+            <button class="dial-btn" data-theme-id="classic-mac" title="Classic Macintosh B&W Theme"></button>
+            <button class="dial-btn" data-theme-id="amber" title="Amber Phosphor Theme"></button>
+            <button class="dial-btn" data-theme-id="green" title="Green Pip-Boy Theme"></button>
+            <button class="dial-btn" data-theme-id="matrix" title="Matrix Rain Theme"></button>
+            <button class="dial-btn" data-theme-id="cyberpunk" title="Cyberpunk Neon Theme"></button>
+          </div>
+          <span class="chassis-label">COLOR DIAL</span>
+        </div>
+
+        <!-- Audio mute clicker dial -->
+        <div class="chassis-control-block mute-block">
+          <button class="chassis-btn btn-mute" id="btn-global-mute" title="Mute Audio Synth">
+            <i data-lucide="volume-2" id="mute-icon"></i>
+          </button>
+          <span class="chassis-label">MUTE SOUND</span>
+        </div>
+
+      </div> <!-- /monitor-controls -->
+
+    </div> <!-- /monitor-cabinet -->
+
+  </div> <!-- /retro-desktop -->
+
+  <!-- App Main Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>

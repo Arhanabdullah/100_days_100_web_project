@@ -1,0 +1,1972 @@
+/* -----------------------------------------------------------------------------
+ * Retro CRT Terminal Journal - CSS Styling & Design System
+ * Features: CRT glass scanlines, glow text-shadows, animations, draggable windows,
+ * and multiple phosphorus color palettes.
+ * ----------------------------------------------------------------------------- */
+
+/* --- Typography & Global Variables --- */
+:root {
+  /* Default Theme: Warm Paperwhite Terminal (Light Mode) */
+  --bg-desktop: #8ba1b4;
+  --bg-cabinet: #ffffff;
+  --bg-bezel: #f5f5f5;
+  --bg-screen: #f4efe2;
+  --text-main: #2a251e;
+  --text-dim: #6d6150;
+  --text-bright: #000000;
+  --glow-color: rgba(255, 255, 255, 0.4);
+  --border-color: #4c4338;
+  --border-dim: #9c9180;
+  --window-bg: #ffffff;
+  --window-border: #4c4338;
+  --window-header-bg: #3c5488;
+  --window-header-text: #ffffff;
+  --field-bg: rgba(0, 0, 0, 0.05);
+  --field-bg-disabled: #e6e1d5;
+  --btn-bg: rgba(0, 0, 0, 0.08);
+
+  /* Casing Variables */
+  --bg-cabinet-border: #d5d5d5;
+  --bg-cabinet-base: #bcbcbc;
+  --bg-cabinet-shadow: #c8c8c8;
+  --bg-bezel-border: #e2e2e2;
+  --bg-controls: #eae6df;
+  --bg-controls-border: #d0d0d0;
+  --bg-chassis-btn: linear-gradient(to bottom, #ffffff, #e2ded8);
+  --border-chassis-btn: #aaaaaa;
+  --color-chassis-btn: #333333;
+
+  --font-mono: 'VT323', monospace;
+  --font-pixel: 'Silkscreen', monospace;
+  --font-code: 'Fira Code', monospace;
+  --font-sans: 'Outfit', sans-serif;
+
+  --transition-speed: 0.2s;
+}
+
+/* Theme: Paperwhite Terminal (Light Mode) */
+body.theme-paperwhite {
+  --bg-desktop: #8ba1b4;
+  --bg-cabinet: #ffffff;
+  --bg-bezel: #f5f5f5;
+  --bg-screen: #f4efe2;
+  --text-main: #2a251e;
+  --text-dim: #6d6150;
+  --text-bright: #000000;
+  --glow-color: rgba(255, 255, 255, 0.4);
+  --border-color: #4c4338;
+  --border-dim: #9c9180;
+  --window-bg: #ffffff;
+  --window-border: #4c4338;
+  --window-header-bg: #3c5488;
+  --window-header-text: #ffffff;
+  --field-bg: rgba(0, 0, 0, 0.05);
+  --field-bg-disabled: #e6e1d5;
+  --btn-bg: rgba(0, 0, 0, 0.08);
+
+  --bg-cabinet-border: #d5d5d5;
+  --bg-cabinet-base: #bcbcbc;
+  --bg-cabinet-shadow: #c8c8c8;
+  --bg-bezel-border: #e2e2e2;
+  --bg-controls: #eae6df;
+  --bg-controls-border: #d0d0d0;
+  --bg-chassis-btn: linear-gradient(to bottom, #ffffff, #e2ded8);
+  --border-chassis-btn: #aaaaaa;
+  --color-chassis-btn: #333333;
+}
+
+/* Theme: Amber Terminal (Dark Mode) */
+body.theme-amber {
+  --bg-desktop: #2c251e;
+  --bg-cabinet: #d2c5b4;
+  --bg-bezel: #3a332a;
+  --bg-screen: #1a0f05;
+  --text-main: #ffb000;
+  --text-dim: #b87e00;
+  --text-bright: #ffd37a;
+  --glow-color: rgba(255, 176, 0, 0.35);
+  --border-color: #ffb000;
+  --border-dim: #8a5e00;
+  --window-bg: #221509;
+  --window-border: #ffb000;
+  --window-header-bg: #ffb000;
+  --window-header-text: #1a0f05;
+  --field-bg: rgba(0, 0, 0, 0.5);
+  --field-bg-disabled: rgba(0, 0, 0, 0.2);
+  --btn-bg: rgba(0, 0, 0, 0.5);
+
+  --bg-cabinet-border: #5a5246;
+  --bg-cabinet-base: #484137;
+  --bg-cabinet-shadow: #312c25;
+  --bg-bezel-border: #1c1813;
+  --bg-controls: #3e3830;
+  --bg-controls-border: #28241f;
+  --bg-chassis-btn: linear-gradient(to bottom, #726759, #4a4237);
+  --border-chassis-btn: #2a251e;
+  --color-chassis-btn: #b0a390;
+}
+
+/* Theme: Green Pip-Boy Terminal (Dark Mode) */
+body.theme-green {
+  --bg-desktop: #1b261b;
+  --bg-cabinet: #c0ccb5;
+  --bg-bezel: #283324;
+  --bg-screen: #061205;
+  --text-main: #33ff33;
+  --text-dim: #1db31d;
+  --text-bright: #a3ffa3;
+  --glow-color: rgba(51, 255, 51, 0.4);
+  --border-color: #33ff33;
+  --border-dim: #138013;
+  --window-bg: #091a08;
+  --window-border: #33ff33;
+  --window-header-bg: #33ff33;
+  --window-header-text: #061205;
+  --field-bg: rgba(0, 0, 0, 0.5);
+  --field-bg-disabled: rgba(0, 0, 0, 0.2);
+  --btn-bg: rgba(0, 0, 0, 0.5);
+
+  --bg-cabinet-border: #5a5246;
+  --bg-cabinet-base: #484137;
+  --bg-cabinet-shadow: #312c25;
+  --bg-bezel-border: #1c1813;
+  --bg-controls: #3e3830;
+  --bg-controls-border: #28241f;
+  --bg-chassis-btn: linear-gradient(to bottom, #726759, #4a4237);
+  --border-chassis-btn: #2a251e;
+  --color-chassis-btn: #b0a390;
+}
+
+/* Theme: Matrix Rain digital Green (Dark Mode) */
+body.theme-matrix {
+  --bg-desktop: #000000;
+  --bg-cabinet: #5c5c5c;
+  --bg-bezel: #1a1a1a;
+  --bg-screen: #000000;
+  --text-main: #00ff66;
+  --text-dim: #008833;
+  --text-bright: #ccffdd;
+  --glow-color: rgba(0, 255, 102, 0.3);
+  --border-color: #00ff66;
+  --border-dim: #006622;
+  --window-bg: #000902;
+  --window-border: #00ff66;
+  --window-header-bg: #00ff66;
+  --window-header-text: #000000;
+  --field-bg: rgba(0, 0, 0, 0.5);
+  --field-bg-disabled: rgba(0, 0, 0, 0.2);
+  --btn-bg: rgba(0, 0, 0, 0.5);
+
+  --bg-cabinet-border: #2d2d2d;
+  --bg-cabinet-base: #1a1a1a;
+  --bg-cabinet-shadow: #111111;
+  --bg-bezel-border: #000000;
+  --bg-controls: #1a1a1a;
+  --bg-controls-border: #0d0d0d;
+  --bg-chassis-btn: linear-gradient(to bottom, #444444, #222222);
+  --border-chassis-btn: #111111;
+  --color-chassis-btn: #888888;
+}
+
+/* Theme: Cyberpunk Neon (Dark Mode) */
+body.theme-cyberpunk {
+  --bg-desktop: #150024;
+  --bg-cabinet: #1f0b27;
+  --bg-bezel: #38084a;
+  --bg-screen: #0c0017;
+  --text-main: #ff007f;
+  --text-dim: #bd005e;
+  --text-bright: #39ffff;
+  --glow-color: rgba(255, 0, 127, 0.4);
+  --border-color: #ff007f;
+  --border-dim: #39ffff;
+  --window-bg: #120121;
+  --window-border: #ff007f;
+  --window-header-bg: #ff007f;
+  --window-header-text: #0c0017;
+  --field-bg: rgba(0, 0, 0, 0.5);
+  --field-bg-disabled: rgba(0, 0, 0, 0.2);
+  --btn-bg: rgba(0, 0, 0, 0.5);
+
+  --bg-cabinet-border: #38084a;
+  --bg-cabinet-base: #1f0b27;
+  --bg-cabinet-shadow: #0c0017;
+  --bg-bezel-border: #0c0017;
+  --bg-controls: #1f0b27;
+  --bg-controls-border: #0c0017;
+  --bg-chassis-btn: linear-gradient(to bottom, #5e0d7a, #2b0439);
+  --border-chassis-btn: #0c0017;
+  --color-chassis-btn: #ff007f;
+}
+
+/* Theme: Classic Macintosh Black & White (Monochrome Light Mode) */
+body.theme-classic-mac {
+  --bg-desktop: #555555;
+  --bg-cabinet: #e8e6e0;
+  --bg-bezel: #cccccc;
+  --bg-screen: #ffffff;
+  --text-main: #000000;
+  --text-dim: #444444;
+  --text-bright: #000000;
+  --glow-color: rgba(0, 0, 0, 0);
+  --border-color: #000000;
+  --border-dim: #888888;
+  --window-bg: #ffffff;
+  --window-border: #000000;
+  --window-header-bg: #000000;
+  --window-header-text: #ffffff;
+  --field-bg: #ffffff;
+  --field-bg-disabled: #f0f0f0;
+  --btn-bg: #ffffff;
+
+  --bg-cabinet-border: #bbbbbb;
+  --bg-cabinet-base: #999999;
+  --bg-cabinet-shadow: #999999;
+  --bg-bezel-border: #bbbbbb;
+  --bg-controls: #e8e6e0;
+  --bg-controls-border: #bbbbbb;
+  --bg-chassis-btn: #ffffff;
+  --border-chassis-btn: #000000;
+  --color-chassis-btn: #000000;
+}
+
+/* --- Resets --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  background-color: var(--bg-desktop);
+  color: var(--text-main);
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- Desktop Backdrop --- */
+.retro-desktop {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: var(--bg-desktop);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 15px 15px;
+  transition: background-color var(--transition-speed);
+}
+
+/* --- Physical CRT Monitor Cabinet --- */
+.monitor-cabinet {
+  width: 900px;
+  background-color: var(--bg-cabinet);
+  border: 12px solid var(--bg-cabinet-border, #5a5246);
+  border-bottom: 24px solid var(--bg-cabinet-base, #484137);
+  border-radius: 40px 40px 15px 15px;
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.6),
+    inset 0 10px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -10px 0 rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  padding: 15px 15px 0 15px;
+  position: relative;
+  transition: background-color var(--transition-speed);
+}
+
+.monitor-cabinet::after {
+  content: "";
+  position: absolute;
+  bottom: -40px;
+  left: 10%;
+  right: 10%;
+  height: 40px;
+  background-color: var(--bg-cabinet-shadow, #312c25);
+  border-radius: 0 0 10px 10px;
+  z-index: -1;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* CRT Screen Bezel Border */
+.crt-bezel {
+  background-color: var(--bg-bezel);
+  border: 14px solid var(--bg-bezel-border, #1c1813);
+  border-radius: 30px;
+  padding: 8px;
+  box-shadow:
+    inset 0 5px 15px rgba(0, 0, 0, 0.8),
+    0 2px 2px rgba(255, 255, 255, 0.2);
+  position: relative;
+  transition: background-color var(--transition-speed);
+}
+
+/* CRT Screen housing viewport */
+.crt-screen {
+  width: 830px;
+  height: 520px;
+  background-color: var(--bg-screen);
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 1);
+  display: flex;
+  flex-direction: column;
+  transition: background-color var(--transition-speed);
+}
+
+/* --- CRT Screen Overlay Shaders --- */
+
+/* 1. Horizontal Scanlines */
+.crt-overlay-scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1000;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.22) 50%), linear-gradient(90deg,
+      rgba(255, 0, 0, 0.03),
+      rgba(0, 255, 0, 0.01),
+      rgba(0, 0, 255, 0.03));
+  background-size: 100% 4px, 6px 100%;
+}
+
+body.theme-classic-mac .crt-overlay-scanlines {
+  background: linear-gradient(rgba(255, 255, 255, 0) 50%,
+      rgba(0, 0, 0, 0.12) 50%);
+  background-size: 100% 3px;
+}
+
+/* 2. Phosphor Screen Flicker */
+.crt-overlay-flicker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1001;
+  background-color: rgba(255, 255, 255, 0.005);
+  animation: crt-flicker 0.15s infinite;
+}
+
+@keyframes crt-flicker {
+  0% {
+    opacity: 0.95;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.97;
+  }
+}
+
+body.theme-classic-mac .crt-overlay-flicker {
+  animation: none;
+}
+
+/* 3. Screen Curvature Reflection Highlight */
+.crt-overlay-glass {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1002;
+  background: radial-gradient(circle at 50% 15%,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.01) 60%,
+      rgba(0, 0, 0, 0.25) 100%);
+}
+
+/* 4. Vignette Shadowing */
+.crt-overlay-vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1003;
+  box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.8);
+}
+
+/* CRT Screen Turn-Off Collapse Animation overlay */
+.crt-power-animation-shield {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  pointer-events: none;
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.15s ease-out;
+}
+
+/* Class applied to body when power is toggled off */
+body.crt-power-off .crt-power-animation-shield {
+  opacity: 1;
+  animation: crt-collapse 0.35s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+@keyframes crt-collapse {
+  0% {
+    transform: scaleY(0.01) scaleX(1);
+    background: #fff;
+  }
+
+  50% {
+    transform: scaleY(0.01) scaleX(0.02);
+    background: #ffecb3;
+  }
+
+  100% {
+    transform: scaleY(0) scaleX(0);
+    background: #000;
+  }
+}
+
+body.crt-power-off .desktop-workspace {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* --- Desktop Workspace Contents --- */
+.desktop-workspace {
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  position: relative;
+  z-index: 50;
+  display: flex;
+  overflow: hidden;
+  transition: opacity 0.3s ease;
+}
+
+/* Desktop Retro Grid Wallpaper */
+.desktop-grid-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(255, 176, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 176, 0, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+body.theme-green .desktop-grid-bg {
+  background-image:
+    linear-gradient(rgba(51, 255, 51, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(51, 255, 51, 0.04) 1px, transparent 1px);
+}
+
+body.theme-matrix .desktop-grid-bg {
+  background-image:
+    linear-gradient(rgba(0, 255, 102, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 102, 0.05) 1px, transparent 1px);
+}
+
+body.theme-cyberpunk .desktop-grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 0, 127, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 0, 127, 0.05) 1px, transparent 1px);
+}
+
+body.theme-classic-mac .desktop-grid-bg {
+  background-image: none;
+  background-color: #f3f3f3;
+}
+
+body.theme-paperwhite .desktop-grid-bg {
+  background-image:
+    linear-gradient(rgba(76, 67, 56, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(76, 67, 56, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Desktop Icon Shortcuts */
+.desktop-shortcuts {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 5;
+}
+
+.shortcut-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 70px;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.1s ease;
+}
+
+.shortcut-icon:active {
+  transform: scale(0.95);
+}
+
+.pixel-icon-container {
+  width: 50px;
+  height: 50px;
+  border: 2px dashed var(--border-color);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--field-bg);
+  color: var(--text-main);
+  transition: background-color 0.2s;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+body.theme-classic-mac .pixel-icon-container {
+  border-style: solid;
+  border-width: 1px;
+  background-color: #ffffff;
+}
+
+.shortcut-icon:hover .pixel-icon-container {
+  background-color: rgba(255, 176, 0, 0.15);
+  box-shadow: 0 0 15px var(--glow-color);
+}
+
+body.theme-green .shortcut-icon:hover .pixel-icon-container {
+  background-color: rgba(51, 255, 51, 0.15);
+}
+
+body.theme-matrix .shortcut-icon:hover .pixel-icon-container {
+  background-color: rgba(0, 255, 102, 0.15);
+}
+
+body.theme-cyberpunk .shortcut-icon:hover .pixel-icon-container {
+  background-color: rgba(255, 0, 127, 0.15);
+}
+
+body.theme-classic-mac .shortcut-icon:hover .pixel-icon-container {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.pixel-icon {
+  width: 26px;
+  height: 26px;
+}
+
+.icon-label {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  margin-top: 5px;
+  color: var(--text-main);
+  text-shadow: 0 0 5px var(--glow-color);
+}
+
+body.theme-classic-mac .icon-label {
+  background-color: #ffffff;
+  color: #000000;
+  border: 1px solid #000000;
+  padding: 0 2px;
+  text-shadow: none;
+}
+
+
+/* --- Retro Window Container Framework --- */
+.retro-window {
+  position: absolute;
+  border: 3px solid var(--window-border);
+  background-color: var(--window-bg);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8), 0 0 15px var(--glow-color);
+  border-radius: 8px 8px 3px 3px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, border-color var(--transition-speed);
+}
+
+.retro-window.hidden {
+  display: none !important;
+}
+
+.retro-window.focused {
+  z-index: 200 !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.9), 0 0 25px var(--glow-color);
+}
+
+/* System 7 / Win95 Window Header Bar */
+.window-header {
+  height: 32px;
+  background-color: var(--window-header-bg);
+  color: var(--window-header-text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  cursor: move;
+  font-weight: bold;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo svg {
+  width: 14px;
+  height: 14px;
+}
+
+.header-title-bar {
+  flex-grow: 1;
+  margin-left: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.win-btn {
+  background-color: transparent;
+  border: 1px solid var(--window-header-text);
+  color: var(--window-header-text);
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.win-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.win-btn svg {
+  width: 10px;
+  height: 10px;
+}
+
+/* Window Content Body area */
+.window-body {
+  flex-grow: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  position: relative;
+}
+
+/* --- Window Components and Panes --- */
+
+/* DIARY WORKSPACE */
+.diary-pane {
+  display: flex;
+  flex-direction: column;
+  height: 380px;
+}
+
+.pane-split {
+  display: flex;
+  flex-grow: 1;
+  gap: 12px;
+  overflow: hidden;
+}
+
+.pane-sidebar {
+  width: 170px;
+  border-right: 2px dashed var(--border-dim);
+  padding-right: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.pane-canvas {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  /* allows text wrapping inside flex container */
+}
+
+/* Forms Elements & Typography */
+.retro-label {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--text-bright);
+  text-shadow: 0 0 5px var(--glow-color);
+  margin-bottom: 4px;
+  display: block;
+}
+
+body.theme-classic-mac .retro-label {
+  color: #000000;
+  text-shadow: none;
+}
+
+.retro-input-field {
+  width: 100%;
+  background-color: var(--field-bg);
+  border: 2px solid var(--border-dim);
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-size: 18px;
+  padding: 4px;
+  border-radius: 4px;
+  outline: none;
+}
+
+.retro-input-field:focus {
+  border-color: var(--border-color);
+  box-shadow: 0 0 8px var(--glow-color);
+}
+
+body.theme-classic-mac .retro-input-field {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  color: #000000;
+}
+
+/* Mood Grid icons */
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.mood-select-btn {
+  background-color: var(--field-bg);
+  border: 1px solid var(--border-dim);
+  color: var(--text-dim);
+  border-radius: 4px;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.mood-select-btn:hover {
+  border-color: var(--border-color);
+  color: var(--text-main);
+}
+
+.mood-select-btn.active {
+  background-color: var(--border-color);
+  color: var(--window-header-text);
+  border-color: var(--border-color);
+  font-weight: bold;
+}
+
+.mood-select-btn .m-emoji {
+  font-size: 16px;
+}
+
+body.theme-classic-mac .mood-select-btn {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  color: #000000;
+}
+
+body.theme-classic-mac .mood-select-btn.active {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* Write protect physical switch UI */
+.write-protect-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-dim);
+  padding: 6px;
+  border-radius: 6px;
+}
+
+body.theme-classic-mac .write-protect-card {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+}
+
+.switch-container {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.switch-container input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #443729;
+  transition: .2s;
+  border-radius: 22px;
+  border: 1px solid var(--border-dim);
+}
+
+body.theme-classic-mac .switch-slider {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+}
+
+.switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--text-dim);
+  transition: .2s;
+  border-radius: 50%;
+}
+
+body.theme-classic-mac .switch-slider:before {
+  background-color: #000000;
+}
+
+input:checked+.switch-slider {
+  background-color: rgba(255, 176, 0, 0.2);
+}
+
+body.theme-green input:checked+.switch-slider {
+  background-color: rgba(51, 255, 51, 0.2);
+}
+
+body.theme-matrix input:checked+.switch-slider {
+  background-color: rgba(0, 255, 102, 0.2);
+}
+
+body.theme-cyberpunk input:checked+.switch-slider {
+  background-color: rgba(255, 0, 127, 0.2);
+}
+
+input:checked+.switch-slider:before {
+  transform: translateX(22px);
+  background-color: var(--text-main);
+}
+
+.write-protect-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.wp-title {
+  font-size: 11px;
+  font-family: var(--font-pixel);
+  color: var(--text-bright);
+}
+
+body.theme-classic-mac .wp-title {
+  color: #000000;
+}
+
+.wp-status {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.wp-tip-text {
+  font-size: 11px;
+  line-height: 1.3;
+  color: var(--text-dim);
+  margin-top: 5px;
+}
+
+body.theme-classic-mac .wp-tip-text {
+  color: #555555;
+}
+
+.blink-warning {
+  color: #ff3333;
+  font-size: 11px;
+  font-family: var(--font-pixel);
+  margin-top: 4px;
+  display: block;
+  animation: text-blink 1s infinite alternate;
+}
+
+@keyframes text-blink {
+  0% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Diary Canvas Panel fields */
+.retro-text-input {
+  width: 100%;
+  background-color: var(--field-bg);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-size: 20px;
+  padding: 6px;
+  outline: none;
+}
+
+.retro-text-input:disabled {
+  background-color: var(--field-bg-disabled);
+  color: var(--text-dim);
+  border-color: #2e2418;
+}
+
+body.theme-classic-mac .retro-text-input {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  color: #000000;
+}
+
+body.theme-classic-mac .retro-text-input:disabled {
+  background-color: #f0f0f0;
+  color: #888888;
+}
+
+.textarea-container {
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.retro-textarea {
+  width: 100%;
+  flex-grow: 1;
+  background-color: var(--field-bg);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-size: 20px;
+  line-height: 1.4;
+  padding: 8px;
+  outline: none;
+  resize: none;
+  min-height: 150px;
+  background-attachment: local;
+}
+
+.retro-textarea:disabled {
+  background-color: var(--field-bg-disabled);
+  color: var(--text-dim);
+  border-color: #2e2418;
+}
+
+.theme-paperwhite .retro-textarea {
+  background-image: linear-gradient(rgba(76, 67, 56, 0.06) 1px, transparent 1px);
+  background-size: 100% 28px;
+}
+
+body.theme-classic-mac .retro-textarea {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  color: #000000;
+}
+
+body.theme-classic-mac .retro-textarea:disabled {
+  background-color: #f0f0f0;
+}
+
+/* Lined notebook ruled lines simulation */
+.theme-amber .retro-textarea {
+  background-image: linear-gradient(rgba(255, 176, 0, 0.05) 1px, transparent 1px);
+  background-size: 100% 28px;
+}
+
+.theme-green .retro-textarea {
+  background-image: linear-gradient(rgba(51, 255, 51, 0.05) 1px, transparent 1px);
+  background-size: 100% 28px;
+}
+
+.theme-matrix .retro-textarea {
+  background-image: linear-gradient(rgba(0, 255, 102, 0.05) 1px, transparent 1px);
+  background-size: 100% 28px;
+}
+
+.theme-cyberpunk .retro-textarea {
+  background-image: linear-gradient(rgba(255, 0, 127, 0.05) 1px, transparent 1px);
+  background-size: 100% 28px;
+}
+
+.theme-classic-mac .retro-textarea {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 100% 28px;
+}
+
+/* Textarea Lock Overlay */
+.textarea-lock-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.textarea-lock-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lock-card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-main);
+  background-color: var(--window-bg);
+  border: 2px solid var(--border-color);
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px var(--glow-color);
+}
+
+body.theme-classic-mac .lock-card {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  box-shadow: none;
+}
+
+.lock-icon {
+  width: 30px;
+  height: 30px;
+  color: var(--text-bright);
+}
+
+/* Button style */
+.btn-retro {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid var(--border-color);
+  color: var(--text-main);
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.btn-retro:hover:not(:disabled) {
+  background-color: var(--border-color);
+  color: var(--window-header-text);
+  box-shadow: 0 0 10px var(--glow-color);
+}
+
+.btn-retro:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.btn-retro:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+body.theme-classic-mac .btn-retro {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  color: #000000;
+}
+
+body.theme-classic-mac .btn-retro:hover:not(:disabled) {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.btn-wp-unlock {
+  font-size: 8px;
+  padding: 4px 8px;
+  margin-top: 5px;
+}
+
+.diary-status-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.save-indicator {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--text-bright);
+}
+
+.diary-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  border-top: 2px dashed var(--border-dim);
+  padding-top: 10px;
+}
+
+
+/* --- TIMELINE COMPONENT --- */
+.timeline-pane {
+  display: flex;
+  flex-direction: column;
+  height: 380px;
+}
+
+.timeline-filters {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  border-bottom: 2px dashed var(--border-dim);
+  padding-bottom: 8px;
+}
+
+.search-wrap {
+  position: relative;
+  flex-grow: 1;
+}
+
+.search-wrap input {
+  padding-right: 28px;
+}
+
+.search-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--text-dim);
+}
+
+.timeline-mood-filter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lbl-small {
+  font-size: 14px;
+}
+
+.retro-select-field {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-dim);
+  border-radius: 4px;
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  padding: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+body.theme-classic-mac .retro-select-field {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  color: #000000;
+}
+
+.timeline-list-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-left: 20px;
+  position: relative;
+}
+
+/* Vertical axis line */
+.timeline-list-container::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 8px;
+  width: 2px;
+  border-left: 2px dashed var(--border-dim);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 16px;
+  padding-left: 15px;
+}
+
+/* Dots on axis line */
+.timeline-dot-connector {
+  position: absolute;
+  left: -20px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  background-color: var(--bg-screen);
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  z-index: 5;
+  box-shadow: 0 0 5px var(--glow-color);
+}
+
+.timeline-item.active .timeline-dot-connector {
+  background-color: var(--text-bright);
+  box-shadow: 0 0 10px var(--text-bright);
+}
+
+/* Timeline Card */
+.timeline-card-content {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-dim);
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.timeline-card-content:hover {
+  border-color: var(--border-color);
+  box-shadow: 0 0 8px var(--glow-color);
+  background-color: rgba(255, 176, 0, 0.05);
+}
+
+body.theme-green .timeline-card-content:hover {
+  background-color: rgba(51, 255, 51, 0.05);
+}
+
+body.theme-matrix .timeline-card-content:hover {
+  background-color: rgba(0, 255, 102, 0.05);
+}
+
+body.theme-cyberpunk .timeline-card-content:hover {
+  background-color: rgba(255, 0, 127, 0.05);
+}
+
+body.theme-classic-mac .timeline-card-content {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+}
+
+body.theme-classic-mac .timeline-card-content:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.timeline-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.tl-date {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  color: var(--text-bright);
+}
+
+body.theme-classic-mac .tl-date {
+  color: inherit;
+}
+
+.tl-mood {
+  font-size: 14px;
+}
+
+.tl-title {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  color: var(--text-main);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tl-excerpt {
+  font-size: 16px;
+  line-height: 1.3;
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+body.theme-classic-mac .tl-title,
+body.theme-classic-mac .tl-excerpt {
+  color: inherit;
+}
+
+.no-timeline-msg {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 18px;
+  color: var(--text-dim);
+}
+
+
+/* --- FLOPPY DRIVE COMPONENT --- */
+.backup-pane {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  height: 250px;
+  justify-content: center;
+}
+
+.disk-illustration {
+  width: 100px;
+  height: 96px;
+  perspective: 400px;
+}
+
+/* CSS Styled Floppy Diskette */
+.floppy-body {
+  width: 100%;
+  height: 100%;
+  background-color: #3f4e5f;
+  border: 2px solid var(--border-color);
+  border-radius: 6px 18px 6px 6px;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+body.theme-paperwhite .floppy-body {
+  border-color: var(--border-color);
+  background-color: #ffffff;
+}
+
+body.theme-paperwhite .floppy-slider {
+  background-color: #ffffff;
+  border-color: var(--border-color);
+}
+
+body.theme-paperwhite .floppy-label {
+  border-color: var(--border-color);
+}
+
+body.theme-classic-mac .floppy-body {
+  border-color: #000000;
+  background-color: #ffffff;
+}
+
+.floppy-slider {
+  width: 36px;
+  height: 30px;
+  background-color: #b0b5bc;
+  border-bottom: 2px solid var(--border-color);
+  position: absolute;
+  top: 0;
+  left: 20px;
+  border-radius: 0 0 4px 4px;
+}
+
+body.theme-classic-mac .floppy-slider {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+}
+
+.floppy-slider::before {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 16px;
+  background-color: #2c251e;
+  left: 14px;
+  top: 6px;
+}
+
+.floppy-label {
+  position: absolute;
+  bottom: 6px;
+  left: 12px;
+  right: 12px;
+  height: 48px;
+  background-color: #fffdec;
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  color: #000;
+  font-family: var(--font-sans);
+  font-size: 8px;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+body.theme-classic-mac .floppy-label {
+  border-color: #000000;
+}
+
+.label-heading {
+  font-weight: bold;
+  border-bottom: 1px solid #ffb000;
+  padding-bottom: 2px;
+}
+
+body.theme-classic-mac .label-heading {
+  border-bottom-color: #000000;
+}
+
+.floppy-write-hole {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  background-color: #2c251e;
+  border: 1px solid var(--border-color);
+}
+
+.backup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.backup-actions button {
+  width: 100%;
+  justify-content: center;
+}
+
+.lbl-center {
+  display: block;
+  text-align: center;
+  font-size: 16px;
+}
+
+.text-accent {
+  color: var(--text-bright);
+}
+
+
+/* --- JUKEBOX / MUSIC COMPONENT --- */
+.music-pane {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  height: 250px;
+}
+
+.cassette-tape {
+  width: 160px;
+  height: 100px;
+  background-color: #2b2825;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  position: relative;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+body.theme-paperwhite .cassette-tape {
+  background-color: #fcfcfc;
+  border-color: var(--border-color);
+}
+
+body.theme-classic-mac .cassette-tape {
+  background-color: #ffffff;
+  border-color: #000000;
+}
+
+.tape-label {
+  background-color: #ffeba8;
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  color: #000;
+  padding: 4px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+body.theme-paperwhite .tape-label {
+  border-color: var(--border-color);
+}
+
+body.theme-classic-mac .tape-label {
+  border-color: #000000;
+}
+
+.tape-label-line1 {
+  font-weight: bold;
+}
+
+.tape-center {
+  height: 35px;
+  background-color: #171513;
+  border: 1px dashed var(--border-color);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 10px;
+}
+
+body.theme-paperwhite .tape-center {
+  background-color: #ffffff;
+  border-color: var(--border-color);
+}
+
+body.theme-classic-mac .tape-center {
+  background-color: #ffffff;
+  border-color: #000000;
+}
+
+.spindle {
+  width: 18px;
+  height: 18px;
+  border: 2px dotted var(--border-color);
+  border-radius: 50%;
+}
+
+body.theme-paperwhite .spindle {
+  border-color: var(--border-color);
+}
+
+body.theme-classic-mac .spindle {
+  border-color: #000000;
+}
+
+.spindle.playing {
+  animation: spindle-rotate 3s infinite linear;
+}
+
+@keyframes spindle-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.tape-window {
+  width: 40px;
+  height: 16px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.tape-reel-lines {
+  position: absolute;
+  top: 50%;
+  left: -20px;
+  width: 80px;
+  height: 2px;
+  background-color: rgba(255, 176, 0, 0.4);
+}
+
+.synth-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.music-ctrl-btn {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid var(--border-color);
+  color: var(--text-main);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.music-ctrl-btn:hover {
+  background-color: var(--border-color);
+  color: var(--window-header-text);
+  box-shadow: 0 0 10px var(--glow-color);
+}
+
+.music-ctrl-btn:active {
+  transform: scale(0.95);
+}
+
+.music-ctrl-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+body.theme-classic-mac .music-ctrl-btn {
+  background-color: #ffffff;
+  border-color: #000000;
+  color: #000000;
+}
+
+body.theme-classic-mac .music-ctrl-btn:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.sound-sliders {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.retro-slider {
+  flex-grow: 1;
+  -webkit-appearance: none;
+  background: var(--border-dim);
+  height: 4px;
+  outline: none;
+  border-radius: 2px;
+}
+
+body.theme-classic-mac .retro-slider {
+  background-color: #888888;
+}
+
+.retro-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background-color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 5px var(--glow-color);
+}
+
+body.theme-classic-mac .retro-slider::-webkit-slider-thumb {
+  background-color: #000000;
+  border-color: #000000;
+  box-shadow: none;
+}
+
+
+/* --- HELP/MANUAL COMPONENT --- */
+.help-pane {
+  height: 380px;
+  overflow-y: auto;
+  line-height: 1.4;
+  font-size: 16px;
+}
+
+.help-pane h2 {
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.help-pane h3 {
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  color: var(--text-bright);
+}
+
+body.theme-classic-mac .help-pane h3 {
+  color: #000000;
+}
+
+.help-pane p {
+  margin-bottom: 8px;
+  color: var(--text-dim);
+}
+
+body.theme-classic-mac .help-pane p {
+  color: #333333;
+}
+
+.dashed-divider {
+  border: none;
+  border-top: 2px dashed var(--border-dim);
+  margin: 10px 0;
+}
+
+
+/* --- PHYSICAL MONITOR BOTTOM CONTROLS --- */
+.monitor-controls {
+  height: 64px;
+  background-color: var(--bg-controls, #3e3830);
+  border-top: 4px solid var(--bg-controls-border, #28241f);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-radius: 0 0 10px 10px;
+  position: relative;
+  z-index: 200;
+  transition: background-color var(--transition-speed);
+}
+
+.branding-plate {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-sans);
+  color: #a49989;
+  line-height: 1.1;
+}
+
+.brand-text {
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+}
+
+.brand-subtext {
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.chassis-control-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.chassis-label {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: #857b6f;
+}
+
+.chassis-btn {
+  background: var(--bg-chassis-btn, linear-gradient(to bottom, #726759, #4a4237));
+  border: 2px solid var(--border-chassis-btn, #2a251e);
+  border-bottom: 4px solid var(--border-chassis-btn, #2a251e);
+  color: var(--color-chassis-btn, #b0a390);
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s;
+}
+
+.chassis-btn:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+/* Power indicator light */
+.led-indicator {
+  width: 8px;
+  height: 8px;
+  background-color: #1a0f05;
+  border-radius: 50%;
+  border: 1px solid #1c1813;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+body.crt-power-on .led-indicator {
+  background-color: #39ff39;
+  box-shadow: 0 0 8px #39ff39, inset 0 1px 1px #a3ffa3;
+}
+
+body.crt-power-on.theme-amber .led-indicator {
+  background-color: #ff9900;
+  box-shadow: 0 0 8px #ff9900, inset 0 1px 1px #ffcc80;
+}
+
+body.crt-power-on.theme-cyberpunk .led-indicator {
+  background-color: #ff007f;
+  box-shadow: 0 0 8px #ff007f, inset 0 1px 1px #ffa3d1;
+}
+
+body.crt-power-on.theme-classic-mac .led-indicator {
+  background-color: #555555;
+  box-shadow: none;
+}
+
+.btn-power {
+  width: 28px;
+  height: 20px;
+}
+
+.btn-power svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Theme dials - row of circular buttons simulating a multi-position switch */
+.theme-buttons-row {
+  display: flex;
+  gap: 5px;
+  background-color: #2c251e;
+  padding: 3px;
+  border-radius: 12px;
+  border: 1px solid #5a5246;
+}
+
+.dial-btn {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #5a5246;
+  background-color: #111111;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.dial-btn.active::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background-color: #ffb000;
+  border-radius: 50%;
+}
+
+body.theme-green .dial-btn.active::after {
+  background-color: #33ff33;
+}
+
+body.theme-matrix .dial-btn.active::after {
+  background-color: #00ff66;
+}
+
+body.theme-cyberpunk .dial-btn.active::after {
+  background-color: #ff007f;
+}
+
+body.theme-classic-mac .dial-btn.active::after {
+  background-color: #000000;
+}
+
+.btn-mute {
+  width: 28px;
+  height: 20px;
+}
+
+.btn-mute svg {
+  width: 12px;
+  height: 12px;
+}
+
+
+/* --- Custom Scrollbar for Terminal look --- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-dim);
+  border-radius: 4px;
+  border: 1px solid var(--bg-screen);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-color);
+}
+
+body.theme-classic-mac ::-webkit-scrollbar-track {
+  background: #ffffff;
+  border: 1px solid #000000;
+}
+
+body.theme-classic-mac ::-webkit-scrollbar-thumb {
+  background: #000000;
+  border-color: #000000;
+}
+
+/* Terminal generic text styles */
+.text-style-terminal {
+  font-family: var(--font-mono);
+  color: var(--text-main);
+}
+
+.text-style-terminal hr {
+  border-color: var(--border-dim);
+}
+
+/* Text Selection highlights */
+::selection {
+  background-color: var(--text-main);
+  color: var(--window-bg);
+}
