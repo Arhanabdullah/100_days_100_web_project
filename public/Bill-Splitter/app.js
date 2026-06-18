@@ -1,15 +1,26 @@
 /* ================================
-   SplitWise Pro — app.js (Enhanced)
-   Features: Equal/Unequal/Items split,
-   Tip, Tax, Dark Mode, Currency switcher,
-   Round-up toggle, Payment status tracker,
-   Copy to clipboard, Bulk item paste,
-   Live totals, Sticky mobile bar,
-   Settlement Logic, History, PDF, QR, Toast
+   SplitWise Pro — app.js (Enhanced + XSS-safe)
+   All user-supplied text is inserted via textContent / DOM methods,
+   never via innerHTML, preventing DOM-based XSS (CodeQL CWE-79).
 ================================ */
 
 const $ = id => document.getElementById(id);
 let CURRENCY = '₹';
+
+/* ============================================================
+   SAFE DOM HELPER
+   Creates an element, assigns optional className, and appends
+   child nodes/text safely — no innerHTML for user data.
+============================================================ */
+function el(tag, className, ...children) {
+  const e = document.createElement(tag);
+  if (className) e.className = className;
+  children.forEach(child => {
+    if (child === null || child === undefined) return;
+    e.appendChild(typeof child === 'string' ? document.createTextNode(child) : child);
+  });
+  return e;
+}
 
 /* ============================================================
    TOAST NOTIFICATIONS
@@ -42,8 +53,7 @@ document.querySelectorAll('.currency-opt').forEach(btn => {
     $('currencySymbolDisplay').textContent = CURRENCY;
     document.querySelectorAll('.currency-opt').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    // Update all currency labels
-    document.querySelectorAll('.currency-label').forEach(el => el.textContent = CURRENCY);
+    document.querySelectorAll('.currency-label').forEach(e => e.textContent = CURRENCY);
     currencyDropdown.classList.remove('open');
     localStorage.setItem('swp-currency', CURRENCY);
     showToast(`Currency set to ${btn.dataset.code}`);
@@ -55,7 +65,7 @@ const savedCurrency = localStorage.getItem('swp-currency');
 if (savedCurrency) {
   CURRENCY = savedCurrency;
   $('currencySymbolDisplay').textContent = CURRENCY;
-  document.querySelectorAll('.currency-label').forEach(el => el.textContent = CURRENCY);
+  document.querySelectorAll('.currency-label').forEach(e => e.textContent = CURRENCY);
   document.querySelectorAll('.currency-opt').forEach(b => {
     b.classList.toggle('active', b.dataset.symbol === CURRENCY);
   });
@@ -152,35 +162,77 @@ document.querySelectorAll('input').forEach(i => i.addEventListener('input', upda
 
 /* ============================================================
    PARTICIPANT HELPERS
+   — all user values assigned via .value on inputs (safe)
+   — participant names displayed via textContent only
 ============================================================ */
 function addParticipantTag(container, name = '') {
   const div = document.createElement('div');
   div.className = 'participant-tag';
-  div.innerHTML = `<input type="text" placeholder="Name" value="${name}" /><button class="remove-p" aria-label="Remove">×</button>`;
-  div.querySelector('.remove-p').addEventListener('click', () => { div.remove(); refreshItemSharers(); });
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.placeholder = 'Name';
+  input.value = name;                     // .value is safe — not rendered as HTML
+
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'remove-p';
+  removeBtn.setAttribute('aria-label', 'Remove');
+  removeBtn.textContent = '×';
+  removeBtn.addEventListener('click', () => { div.remove(); refreshItemSharers(); });
+
+  div.appendChild(input);
+  div.appendChild(removeBtn);
   container.appendChild(div);
-  div.querySelector('input').focus();
+  input.focus();
 }
 
 function addParticipantRow(container, name = '') {
   const div = document.createElement('div');
   div.className = 'participant-row';
-  div.innerHTML = `
-    <input type="text" placeholder="Name" value="${name}" class="p-name" />
-    <div class="input-prefix sm"><span class="currency-label">${CURRENCY}</span><input type="number" placeholder="0.00" class="p-amount" min="0" step="0.01" /></div>
-    <button class="remove-p" aria-label="Remove">×</button>`;
-  div.querySelector('.remove-p').addEventListener('click', () => div.remove());
-  div.querySelector('.p-amount').addEventListener('input', updateUqRemain);
+
+  const nameInput = document.createElement('input');
+  nameInput.type = 'text';
+  nameInput.placeholder = 'Name';
+  nameInput.className = 'p-name';
+  nameInput.value = name;                 // .value is safe
+
+  const prefixDiv = document.createElement('div');
+  prefixDiv.className = 'input-prefix sm';
+
+  const currSpan = document.createElement('span');
+  currSpan.className = 'currency-label';
+  currSpan.textContent = CURRENCY;
+
+  const amtInput = document.createElement('input');
+  amtInput.type = 'number';
+  amtInput.placeholder = '0.00';
+  amtInput.className = 'p-amount';
+  amtInput.min = '0';
+  amtInput.step = '0.01';
+  amtInput.addEventListener('input', updateUqRemain);
+
+  prefixDiv.appendChild(currSpan);
+  prefixDiv.appendChild(amtInput);
+
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'remove-p';
+  removeBtn.setAttribute('aria-label', 'Remove');
+  removeBtn.textContent = '×';
+  removeBtn.addEventListener('click', () => div.remove());
+
+  div.appendChild(nameInput);
+  div.appendChild(prefixDiv);
+  div.appendChild(removeBtn);
   container.appendChild(div);
   updateUqRemain();
-  div.querySelector('.p-name').focus();
+  nameInput.focus();
 }
 
 function getParticipantNames(container, selector = 'input[type="text"]') {
   return [...container.querySelectorAll(selector)].map(i => i.value.trim() || 'Person');
 }
 
-/* Wire existing remove buttons */
+/* Wire existing remove buttons in static HTML */
 document.querySelectorAll('.remove-p').forEach(btn => {
   btn.addEventListener('click', () => btn.closest('.participant-tag, .participant-row')?.remove());
 });
@@ -191,6 +243,36 @@ $('it-add-p').addEventListener('click', () => {
   addParticipantTag($('it-participants'));
   refreshItemSharers();
 });
+
+/* ============================================================
+   SETTLE ROW builder — safe DOM construction
+============================================================ */
+function makeSettleRow(from, to, amount) {
+  const d = document.createElement('div');
+  d.className = 'settle-row';
+
+  const fromSpan = document.createElement('span');
+  fromSpan.className = 'settle-from';
+  fromSpan.textContent = from;            // user name → textContent only
+
+  const arrowSpan = document.createElement('span');
+  arrowSpan.className = 'settle-arrow';
+  arrowSpan.textContent = 'pays →';
+
+  const toSpan = document.createElement('span');
+  toSpan.className = 'settle-to';
+  toSpan.textContent = to;               // user name → textContent only
+
+  const amtSpan = document.createElement('span');
+  amtSpan.className = 'settle-amt';
+  amtSpan.textContent = fmt(amount);     // formatted number — safe, but using textContent anyway
+
+  d.appendChild(fromSpan);
+  d.appendChild(arrowSpan);
+  d.appendChild(toSpan);
+  d.appendChild(amtSpan);
+  return d;
+}
 
 /* ============================================================
    EQUAL SPLIT
@@ -218,36 +300,50 @@ $('eq-calc').addEventListener('click', () => {
   $('eq-tax-amt').textContent = fmt(tax);
   $('eq-total').textContent = fmt(total);
 
-  // Animate per-person amount
   animateValue($('eq-per-person'), 0, per, 500, roundUp);
 
-  // Occasion display
-  const occEl = $('eq-occasion-display');
-  occEl.textContent = occasion ? `🎉 ${occasion}` : '';
+  // Occasion — safe: textContent
+  $('eq-occasion-display').textContent = occasion ? `🎉 ${occasion}` : '';
 
-  // Payment status breakdown
+  // Payment status breakdown — safe DOM construction only
   const bd = $('eq-breakdown');
-  bd.innerHTML = '';
+  bd.innerHTML = '';                      // clearing container is safe (no user data)
   const paidState = {};
 
-  names.forEach((name, idx) => {
+  names.forEach((name) => {
     paidState[name] = false;
+
     const d = document.createElement('div');
     d.className = 'breakdown-item';
-    d.innerHTML = `
-      <span class="breakdown-name">${name}</span>
-      <div class="breakdown-right">
-        <span class="breakdown-amt">${fmt(per)}</span>
-        <button class="paid-btn" data-name="${name}" data-idx="${idx}" aria-label="Mark paid">Mark paid</button>
-      </div>`;
-    bd.appendChild(d);
-    d.querySelector('.paid-btn').addEventListener('click', function() {
+
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'breakdown-name';
+    nameSpan.textContent = name;          // user name → textContent only
+
+    const rightDiv = document.createElement('div');
+    rightDiv.className = 'breakdown-right';
+
+    const amtSpan = document.createElement('span');
+    amtSpan.className = 'breakdown-amt';
+    amtSpan.textContent = fmt(per);
+
+    const paidBtn = document.createElement('button');
+    paidBtn.className = 'paid-btn';
+    paidBtn.setAttribute('aria-label', 'Mark paid');
+    paidBtn.textContent = 'Mark paid';
+    paidBtn.addEventListener('click', function () {
       paidState[name] = !paidState[name];
       this.classList.toggle('is-paid', paidState[name]);
       this.textContent = paidState[name] ? '✓ Paid' : 'Mark paid';
       d.classList.toggle('is-paid-row', paidState[name]);
       updatePaidCount(paidState, names.length);
     });
+
+    rightDiv.appendChild(amtSpan);
+    rightDiv.appendChild(paidBtn);
+    d.appendChild(nameSpan);
+    d.appendChild(rightDiv);
+    bd.appendChild(d);
   });
 
   updatePaidCount(paidState, names.length);
@@ -263,7 +359,6 @@ function updatePaidCount(paidState, total) {
   $('eq-paid-count').className = `paid-count${paid === total ? ' all-paid' : ''}`;
 }
 
-/* Animate number counting up */
 function animateValue(el, start, end, duration, isRounded = false) {
   const startTime = performance.now();
   const update = (now) => {
@@ -301,6 +396,7 @@ function updateUqRemain() {
     label.textContent = pct.toFixed(0) + '% assigned';
 
     info.style.display = 'block';
+    // All values here are numbers / formatted strings — safe, using textContent
     $('uq-remain-label').textContent = remain > 0.005
       ? `⚠️ Unassigned: ${fmt(remain)} remaining`
       : remain < -0.005
@@ -344,32 +440,32 @@ $('uq-calc').addEventListener('click', () => {
 
   const settlements = settleDebts(people.map(p => ({ name: p.name, balance: p.paid - p.owes })));
 
-  // Summary grid
+  // Summary — all formatted numbers, safe
   $('uq-subtotal').textContent = fmt(bill);
   $('uq-tip-display').textContent = fmt(bill * tipPct / 100);
   $('uq-tax-display').textContent = fmt(bill * taxPct / 100);
   $('uq-total-display').textContent = fmt(total);
 
   const sl = $('uq-settlement');
-  sl.innerHTML = '';
+  sl.innerHTML = '';                      // clearing container — safe
+
   if (settlements.length === 0) {
-    sl.innerHTML = `<div class="breakdown-item"><span>Everyone is square! ✅</span></div>`;
+    const d = document.createElement('div');
+    d.className = 'breakdown-item';
+    const sp = document.createElement('span');
+    sp.textContent = 'Everyone is square! ✅';
+    d.appendChild(sp);
+    sl.appendChild(d);
   } else {
-    settlements.forEach(s => {
-      const d = document.createElement('div');
-      d.className = 'settle-row';
-      d.innerHTML = `
-        <span class="settle-from">${s.from}</span>
-        <span class="settle-arrow">pays →</span>
-        <span class="settle-to">${s.to}</span>
-        <span class="settle-amt">${fmt(s.amount)}</span>`;
-      sl.appendChild(d);
-    });
+    settlements.forEach(s => sl.appendChild(makeSettleRow(s.from, s.to, s.amount)));
   }
 
   $('uq-results').style.display = 'block';
   $('uq-results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  window._uqResult = { type: 'Custom Split', bill, tipPct, taxPct, total, settlements, people, occasion: $('uq-occasion').value.trim() };
+  window._uqResult = {
+    type: 'Custom Split', bill, tipPct, taxPct, total, settlements, people,
+    occasion: $('uq-occasion').value.trim()
+  };
 });
 
 /* ============================================================
@@ -409,32 +505,75 @@ function updateItemsLiveTotal() {
   updateStickyBar();
 }
 
+/* Build a sharer label element safely */
+function makeSharerLabel(name, checked) {
+  const lbl = document.createElement('label');
+  lbl.className = 'sharer-check' + (checked ? ' checked' : '');
+
+  const cb = document.createElement('input');
+  cb.type = 'checkbox';
+  cb.checked = checked;
+  cb.dataset.name = name;                 // stored in dataset, not rendered as HTML
+  cb.addEventListener('change', (e) => {
+    lbl.classList.toggle('checked', e.target.checked);
+  });
+
+  lbl.appendChild(cb);
+  lbl.appendChild(document.createTextNode(name));  // name → text node only
+  return lbl;
+}
+
 function addItem(name = '', price = '') {
   const names = getItParticipants();
   const div = document.createElement('div');
   div.className = 'item-row';
-  const sharers = names.map(n => `
-    <label class="sharer-check checked">
-      <input type="checkbox" checked data-name="${n}" />
-      ${n}
-    </label>`).join('');
 
-  div.innerHTML = `
-    <div class="item-row-header">
-      <input type="text" placeholder="Item name" class="item-name" value="${name}" />
-      <div class="input-prefix sm"><span class="currency-label">${CURRENCY}</span><input type="number" placeholder="0.00" class="item-price" min="0" step="0.01" value="${price}" /></div>
-      <button class="remove-p" aria-label="Remove item">×</button>
-    </div>
-    <div class="item-sharers">${sharers}</div>`;
+  // ── Header row ──
+  const header = document.createElement('div');
+  header.className = 'item-row-header';
 
-  div.querySelector('.remove-p').addEventListener('click', () => { div.remove(); updateItemsLiveTotal(); });
-  div.querySelector('.item-price').addEventListener('input', updateItemsLiveTotal);
-  div.querySelectorAll('.sharer-check').forEach(lbl => {
-    lbl.querySelector('input').addEventListener('change', (e) => {
-      lbl.classList.toggle('checked', e.target.checked);
-    });
-  });
+  const nameInput = document.createElement('input');
+  nameInput.type = 'text';
+  nameInput.placeholder = 'Item name';
+  nameInput.className = 'item-name';
+  nameInput.value = name;                 // .value is safe
 
+  const prefixDiv = document.createElement('div');
+  prefixDiv.className = 'input-prefix sm';
+
+  const currSpan = document.createElement('span');
+  currSpan.className = 'currency-label';
+  currSpan.textContent = CURRENCY;
+
+  const priceInput = document.createElement('input');
+  priceInput.type = 'number';
+  priceInput.placeholder = '0.00';
+  priceInput.className = 'item-price';
+  priceInput.min = '0';
+  priceInput.step = '0.01';
+  if (price !== '') priceInput.value = price; // .value is safe
+  priceInput.addEventListener('input', updateItemsLiveTotal);
+
+  prefixDiv.appendChild(currSpan);
+  prefixDiv.appendChild(priceInput);
+
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'remove-p';
+  removeBtn.setAttribute('aria-label', 'Remove item');
+  removeBtn.textContent = '×';
+  removeBtn.addEventListener('click', () => { div.remove(); updateItemsLiveTotal(); });
+
+  header.appendChild(nameInput);
+  header.appendChild(prefixDiv);
+  header.appendChild(removeBtn);
+
+  // ── Sharers ──
+  const sharersDiv = document.createElement('div');
+  sharersDiv.className = 'item-sharers';
+  names.forEach(n => sharersDiv.appendChild(makeSharerLabel(n, true)));
+
+  div.appendChild(header);
+  div.appendChild(sharersDiv);
   $('it-items').appendChild(div);
   updateItemsLiveTotal();
 }
@@ -446,16 +585,12 @@ function refreshItemSharers() {
     row.querySelectorAll('.sharer-check').forEach(lbl => {
       existing[lbl.querySelector('input').dataset.name] = lbl.classList.contains('checked');
     });
-    const sharers = names.map(n => {
+
+    const sharersDiv = row.querySelector('.item-sharers');
+    sharersDiv.innerHTML = '';            // clearing container — safe
+    names.forEach(n => {
       const isChecked = existing[n] !== false;
-      return `<label class="sharer-check ${isChecked ? 'checked' : ''}">
-        <input type="checkbox" ${isChecked ? 'checked' : ''} data-name="${n}" />${n}</label>`;
-    }).join('');
-    row.querySelector('.item-sharers').innerHTML = sharers;
-    row.querySelectorAll('.sharer-check').forEach(lbl => {
-      lbl.querySelector('input').addEventListener('change', (e) => {
-        lbl.classList.toggle('checked', e.target.checked);
-      });
+      sharersDiv.appendChild(makeSharerLabel(n, isChecked));
     });
   });
 }
@@ -472,10 +607,10 @@ $('it-calc').addEventListener('click', () => {
   const taxPct = parseFloat($('it-tax').value) || 0;
 
   const items = [...$('it-items').querySelectorAll('.item-row')].map(row => {
-    const name = row.querySelector('.item-name').value.trim() || 'Item';
+    const itemName = row.querySelector('.item-name').value.trim() || 'Item';
     const price = parseFloat(row.querySelector('.item-price').value) || 0;
     const sharers = [...row.querySelectorAll('.sharer-check.checked input')].map(i => i.dataset.name);
-    return { name, price, sharers };
+    return { name: itemName, price, sharers };
   }).filter(i => i.price > 0);
 
   if (!items.length) return showToast('Add at least one item with a price.', 'error');
@@ -505,56 +640,110 @@ $('it-calc').addEventListener('click', () => {
     totals[n].taxShare = taxShare;
   });
 
+  // ── Per-person breakdown cards — fully safe DOM construction ──
   const bd = $('it-breakdown');
-  bd.innerHTML = '';
-  Object.entries(totals).forEach(([name, data]) => {
+  bd.innerHTML = '';                      // clearing container — safe
+
+  Object.entries(totals).forEach(([personName, data]) => {
     if (!data.items.length) return;
+
     const card = document.createElement('div');
     card.className = 'ppi-card';
-    const itemsHtml = data.items.map(i =>
-      `<div class="ppi-item"><span>${i.name}</span><span>${fmt(i.amount)}</span></div>`
-    ).join('');
-    const tipHtml = data.tipShare > 0
-      ? `<div class="ppi-item tip-row"><span>Tip (${tipPct}%)</span><span>${fmt(data.tipShare)}</span></div>` : '';
-    const taxHtml = data.taxShare > 0
-      ? `<div class="ppi-item tax-row"><span>Tax (${taxPct}%)</span><span>${fmt(data.taxShare)}</span></div>` : '';
-    card.innerHTML = `
-      <div class="ppi-header">
-        <span class="ppi-name">${name}</span>
-        <span class="ppi-total">${fmt(data.total)}</span>
-      </div>
-      <div class="ppi-items">${itemsHtml}${tipHtml}${taxHtml}</div>`;
+
+    // Header
+    const hdr = document.createElement('div');
+    hdr.className = 'ppi-header';
+
+    const nameSpan = document.createElement('span');
+    nameSpan.className = 'ppi-name';
+    nameSpan.textContent = personName;    // user name → textContent only
+
+    const totalSpan = document.createElement('span');
+    totalSpan.className = 'ppi-total';
+    totalSpan.textContent = fmt(data.total);
+
+    hdr.appendChild(nameSpan);
+    hdr.appendChild(totalSpan);
+
+    // Item rows
+    const itemsDiv = document.createElement('div');
+    itemsDiv.className = 'ppi-items';
+
+    data.items.forEach(i => {
+      const row = document.createElement('div');
+      row.className = 'ppi-item';
+      const iName = document.createElement('span');
+      iName.textContent = i.name;         // item name → textContent only
+      const iAmt = document.createElement('span');
+      iAmt.textContent = fmt(i.amount);
+      row.appendChild(iName);
+      row.appendChild(iAmt);
+      itemsDiv.appendChild(row);
+    });
+
+    if (data.tipShare > 0) {
+      const row = document.createElement('div');
+      row.className = 'ppi-item tip-row';
+      const lbl = document.createElement('span');
+      lbl.textContent = `Tip (${tipPct}%)`;
+      const amt = document.createElement('span');
+      amt.textContent = fmt(data.tipShare);
+      row.appendChild(lbl); row.appendChild(amt);
+      itemsDiv.appendChild(row);
+    }
+
+    if (data.taxShare > 0) {
+      const row = document.createElement('div');
+      row.className = 'ppi-item tax-row';
+      const lbl = document.createElement('span');
+      lbl.textContent = `Tax (${taxPct}%)`;
+      const amt = document.createElement('span');
+      amt.textContent = fmt(data.taxShare);
+      row.appendChild(lbl); row.appendChild(amt);
+      itemsDiv.appendChild(row);
+    }
+
+    card.appendChild(hdr);
+    card.appendChild(itemsDiv);
     bd.appendChild(card);
   });
 
+  // Settlement
   const maxPayer = Object.entries(totals).reduce((a, b) => b[1].total > a[1].total ? b : a);
   const settlements = [];
-  Object.entries(totals).forEach(([name, data]) => {
-    if (name !== maxPayer[0] && data.total > 0.005) {
-      settlements.push({ from: name, to: maxPayer[0], amount: +data.total.toFixed(2) });
+  Object.entries(totals).forEach(([pName, data]) => {
+    if (pName !== maxPayer[0] && data.total > 0.005) {
+      settlements.push({ from: pName, to: maxPayer[0], amount: +data.total.toFixed(2) });
     }
   });
 
   const sl = $('it-settlement');
-  sl.innerHTML = `<h3 class="section-title" style="margin-top:0">💸 Settlement</h3>`;
+  sl.innerHTML = '';                      // clearing container — safe
+
+  // Settlement heading — static text, not user data
+  const settleHeading = document.createElement('h3');
+  settleHeading.className = 'section-title';
+  settleHeading.style.marginTop = '0';
+  settleHeading.textContent = '💸 Settlement';
+  sl.appendChild(settleHeading);
+
   if (!settlements.length) {
-    sl.innerHTML += `<div class="breakdown-item"><span>Only one person! ✅</span></div>`;
+    const d = document.createElement('div');
+    d.className = 'breakdown-item';
+    const sp = document.createElement('span');
+    sp.textContent = 'Only one person! ✅';
+    d.appendChild(sp);
+    sl.appendChild(d);
   } else {
-    settlements.forEach(s => {
-      const d = document.createElement('div');
-      d.className = 'settle-row';
-      d.innerHTML = `
-        <span class="settle-from">${s.from}</span>
-        <span class="settle-arrow">pays →</span>
-        <span class="settle-to">${s.to}</span>
-        <span class="settle-amt">${fmt(s.amount)}</span>`;
-      sl.appendChild(d);
-    });
+    settlements.forEach(s => sl.appendChild(makeSettleRow(s.from, s.to, s.amount)));
   }
 
   $('it-results').style.display = 'block';
   $('it-results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  window._itResult = { type: 'Items Split', items, totals, settlements, tipPct, taxPct, occasion: $('it-occasion').value.trim() };
+  window._itResult = {
+    type: 'Items Split', items, totals, settlements, tipPct, taxPct,
+    occasion: $('it-occasion').value.trim()
+  };
 });
 
 /* ============================================================
@@ -576,10 +765,10 @@ $('bulkAddBtn').addEventListener('click', () => {
   lines.forEach(line => {
     const parts = line.split(',');
     if (parts.length >= 2) {
-      const name = parts[0].trim();
+      const itemName = parts[0].trim();
       const price = parseFloat(parts[parts.length - 1].trim().replace(/[^\d.]/g, ''));
-      if (name && !isNaN(price) && price > 0) {
-        addItem(name, price);
+      if (itemName && !isNaN(price) && price > 0) {
+        addItem(itemName, price);
         added++;
       }
     }
@@ -604,7 +793,6 @@ function copyText(text) {
   navigator.clipboard.writeText(text).then(
     () => showToast('Copied to clipboard! 📋'),
     () => {
-      // fallback
       const ta = document.createElement('textarea');
       ta.value = text;
       document.body.appendChild(ta);
@@ -626,7 +814,7 @@ $('eq-copy').addEventListener('click', () => {
     r.tipPct > 0 ? `Tip (${r.tipPct}%): ${fmt(r.tip)}` : '',
     r.taxPct > 0 ? `Tax (${r.taxPct}%): ${fmt(r.tax)}` : '',
     `Grand Total: ${fmt(r.total)}`,
-    ``,
+    '',
     `Each person pays: ${fmt(r.per)}`,
     `Participants: ${r.names.join(', ')}`
   ].filter(Boolean).join('\n');
@@ -640,8 +828,8 @@ $('uq-copy').addEventListener('click', () => {
     r.occasion ? `🎉 ${r.occasion}` : '',
     `SplitWise Pro — Custom Split`,
     `Total: ${fmt(r.total)}`,
-    ``,
-    `Settlement:`,
+    '',
+    'Settlement:',
     ...(r.settlements.length
       ? r.settlements.map(s => `  ${s.from} → ${s.to}: ${fmt(s.amount)}`)
       : ['  Everyone is square! ✅'])
@@ -657,12 +845,12 @@ $('it-copy').addEventListener('click', () => {
     .map(([n, d]) => `  ${n}: ${fmt(d.total)}`).join('\n');
   const lines = [
     r.occasion ? `🎉 ${r.occasion}` : '',
-    `SplitWise Pro — Items Split`,
-    ``,
-    `Per Person:`,
+    'SplitWise Pro — Items Split',
+    '',
+    'Per Person:',
     perPerson,
-    ``,
-    `Settlement:`,
+    '',
+    'Settlement:',
     ...(r.settlements.length
       ? r.settlements.map(s => `  ${s.from} → ${s.to}: ${fmt(s.amount)}`)
       : ['  Only one person! ✅'])
@@ -691,26 +879,69 @@ function saveHistory(entry) {
 function renderHistory() {
   const list = $('historyList');
   const hist = getHistory();
+
+  list.innerHTML = '';                    // clearing container — safe
+
   if (!hist.length) {
-    list.innerHTML = `
-      <div class="empty-history">
-        <div class="empty-icon">📂</div>
-        <div class="empty-title">No splits yet</div>
-        <div class="empty-sub">Hit 💾 Save after calculating to keep a record here.</div>
-      </div>`;
+    // Static structure — no user data involved
+    const empty = document.createElement('div');
+    empty.className = 'empty-history';
+
+    const icon = document.createElement('div');
+    icon.className = 'empty-icon';
+    icon.textContent = '📂';
+
+    const title = document.createElement('div');
+    title.className = 'empty-title';
+    title.textContent = 'No splits yet';
+
+    const sub = document.createElement('div');
+    sub.className = 'empty-sub';
+    sub.textContent = 'Hit 💾 Save after calculating to keep a record here.';
+
+    empty.appendChild(icon);
+    empty.appendChild(title);
+    empty.appendChild(sub);
+    list.appendChild(empty);
     return;
   }
-  list.innerHTML = '';
+
   hist.forEach(h => {
     const item = document.createElement('div');
     item.className = 'history-item';
-    item.innerHTML = `
-      <div class="history-meta">
-        <span class="history-type">${h.type}</span>
-        <span class="history-date">${h.date}</span>
-      </div>
-      <div class="history-title">${h.occasion ? `🎉 ${h.occasion} — ` : ''}${h.summary || 'Split'}</div>
-      <div class="history-sub">${h.detail || ''}</div>`;
+
+    // Meta row
+    const meta = document.createElement('div');
+    meta.className = 'history-meta';
+
+    const typeSpan = document.createElement('span');
+    typeSpan.className = 'history-type';
+    typeSpan.textContent = h.type || '';  // comes from our own code, but textContent anyway
+
+    const dateSpan = document.createElement('span');
+    dateSpan.className = 'history-date';
+    dateSpan.textContent = h.date || '';  // formatted date string — textContent
+
+    meta.appendChild(typeSpan);
+    meta.appendChild(dateSpan);
+
+    // Title row — occasion + summary are user-supplied → textContent
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'history-title';
+    if (h.occasion) {
+      titleDiv.textContent = `🎉 ${h.occasion} — ${h.summary || 'Split'}`;
+    } else {
+      titleDiv.textContent = h.summary || 'Split';
+    }
+
+    // Sub row
+    const subDiv = document.createElement('div');
+    subDiv.className = 'history-sub';
+    subDiv.textContent = h.detail || '';  // our own formatted string — textContent
+
+    item.appendChild(meta);
+    item.appendChild(titleDiv);
+    item.appendChild(subDiv);
     list.appendChild(item);
   });
 }
@@ -742,26 +973,40 @@ $('clearHistory').addEventListener('click', () => {
 $('eq-save').addEventListener('click', () => {
   const r = window._eqResult;
   if (!r) return showToast('Calculate first!', 'error');
-  saveHistory({ type: r.type, occasion: r.occasion, summary: `Total ${fmt(r.total)} ÷ ${r.names.length} people`, detail: `Each pays ${fmt(r.per)}` });
+  saveHistory({
+    type: r.type, occasion: r.occasion,
+    summary: `Total ${fmt(r.total)} ÷ ${r.names.length} people`,
+    detail: `Each pays ${fmt(r.per)}`
+  });
   showToast('Saved to history! 💾');
 });
 
 $('uq-save').addEventListener('click', () => {
   const r = window._uqResult;
   if (!r) return showToast('Calculate first!', 'error');
-  saveHistory({ type: r.type, occasion: r.occasion, summary: `Total ${fmt(r.total)}`, detail: `${r.settlements.length} settlement(s)` });
+  saveHistory({
+    type: r.type, occasion: r.occasion,
+    summary: `Total ${fmt(r.total)}`,
+    detail: `${r.settlements.length} settlement(s)`
+  });
   showToast('Saved to history! 💾');
 });
 
 $('it-save').addEventListener('click', () => {
   const r = window._itResult;
   if (!r) return showToast('Calculate first!', 'error');
-  saveHistory({ type: r.type, occasion: r.occasion, summary: `${r.items.length} items`, detail: `${r.settlements.length} settlement(s)` });
+  saveHistory({
+    type: r.type, occasion: r.occasion,
+    summary: `${r.items.length} items`,
+    detail: `${r.settlements.length} settlement(s)`
+  });
   showToast('Saved to history! 💾');
 });
 
 /* ============================================================
    PDF EXPORT
+   PDF text is rendered by jsPDF as a string — not as HTML —
+   so no XSS vector exists there; user data is still safe.
 ============================================================ */
 function generatePDF(title, lines, occasion = '') {
   const { jsPDF } = window.jspdf;
@@ -780,7 +1025,7 @@ function generatePDF(title, lines, occasion = '') {
   doc.text(new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }), 210 - margin, 14, { align: 'right' });
   if (occasion) {
     doc.setFontSize(11);
-    doc.text(`🎉 ${occasion}`, margin, 24);
+    doc.text(`Occasion: ${occasion}`, margin, 24);
   }
   y = 42;
 
@@ -883,9 +1128,10 @@ $('it-pdf').addEventListener('click', () => {
    QR SHARE
 ============================================================ */
 function showQR(summaryText) {
-  $('qrcode').innerHTML = '';
+  $('qrcode').innerHTML = '';             // clearing container — safe
   const encoded = encodeURIComponent(summaryText);
   const url = `https://splitwise-pro.share/?data=${encoded.slice(0, 800)}`;
+  // textContent — not rendered as HTML
   $('qr-url-text').textContent = summaryText.slice(0, 120) + (summaryText.length > 120 ? '…' : '');
   try {
     new QRCode($('qrcode'), {
@@ -896,7 +1142,10 @@ function showQR(summaryText) {
       correctLevel: QRCode.CorrectLevel.M
     });
   } catch (e) {
-    $('qrcode').innerHTML = '<p style="color:red;font-size:12px">QR lib not loaded</p>';
+    const p = document.createElement('p');
+    p.style.cssText = 'color:red;font-size:12px';
+    p.textContent = 'QR lib not loaded';
+    $('qrcode').appendChild(p);
   }
   $('qrModalOverlay').classList.add('open');
 }
@@ -909,7 +1158,13 @@ $('qrModalOverlay').addEventListener('click', e => {
 $('eq-qr').addEventListener('click', () => {
   const r = window._eqResult;
   if (!r) return showToast('Calculate first!', 'error');
-  const text = `SplitWise Pro - Equal Split\n${r.occasion ? r.occasion + '\n' : ''}Total: ${fmt(r.total)}\nPeople: ${r.names.join(', ')}\nEach pays: ${fmt(r.per)}`;
+  const text = [
+    'SplitWise Pro - Equal Split',
+    r.occasion ? r.occasion : '',
+    `Total: ${fmt(r.total)}`,
+    `People: ${r.names.join(', ')}`,
+    `Each pays: ${fmt(r.per)}`
+  ].filter(Boolean).join('\n');
   showQR(text);
 });
 
@@ -917,7 +1172,15 @@ $('uq-qr').addEventListener('click', () => {
   const r = window._uqResult;
   if (!r) return showToast('Calculate first!', 'error');
   const lines = r.settlements.map(s => `${s.from} → ${s.to}: ${fmt(s.amount)}`).join('\n');
-  showQR(`SplitWise Pro - Custom Split\n${r.occasion ? r.occasion + '\n' : ''}Total: ${fmt(r.total)}\n\nSettlement:\n${lines || 'All square!'}`);
+  const text = [
+    'SplitWise Pro - Custom Split',
+    r.occasion ? r.occasion : '',
+    `Total: ${fmt(r.total)}`,
+    '',
+    'Settlement:',
+    lines || 'All square!'
+  ].filter(Boolean).join('\n');
+  showQR(text);
 });
 
 $('it-qr').addEventListener('click', () => {
@@ -926,7 +1189,14 @@ $('it-qr').addEventListener('click', () => {
   const perPerson = Object.entries(r.totals)
     .filter(([, d]) => d.total > 0)
     .map(([n, d]) => `${n}: ${fmt(d.total)}`).join('\n');
-  showQR(`SplitWise Pro - Items Split\n${r.occasion ? r.occasion + '\n' : ''}\nPer Person:\n${perPerson}`);
+  const text = [
+    'SplitWise Pro - Items Split',
+    r.occasion ? r.occasion : '',
+    '',
+    'Per Person:',
+    perPerson
+  ].filter(Boolean).join('\n');
+  showQR(text);
 });
 
 /* ============================================================
