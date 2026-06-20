@@ -3031,5 +3031,18 @@
       ],
       "difficulty": "advanced",
       "projectPath": "./public/RedBlackTreeVisualizer/index.html"
+    },
+    {
+      "projectNo": 239,
+      "projectName": "LayerText",
+      "projectType": "Tool",
+      "projectDesc": "Tool for Frontend Developers",
+      "techStack": [
+        "html",
+        "css",
+        "javascript"
+      ],
+      "difficulty": "advanced",
+      "projectPath": "./public/css-animation/index.html"
     }
 ]
